@@ -33,8 +33,7 @@ npm install
 node_modules/.bin/jspm install
 ```
 
-### Running: ###
---------
+### Run: ###
 ```
 node index.js
 ```
