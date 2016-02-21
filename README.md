@@ -35,5 +35,5 @@ node_modules/.bin/jspm install
 
 ### Run: ###
 ```
-node index.js
+npm start
 ```

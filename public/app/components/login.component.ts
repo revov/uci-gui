@@ -1,16 +1,14 @@
 import { Component, View } from 'angular2/core';
 
 @Component({
-    selector: 'main-app'
+    selector: 'login-page'
 })
 @View({
     template: `
-    <div>
-        Hello from Angular 2.
-    </div>
+        <h1>Login page</h1>
     `
 })
-export class App {
+export class Login {
     constructor() {
         
     }

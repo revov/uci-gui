@@ -30,11 +30,14 @@ System.config({
   map: {
     "angular2": "npm:angular2@2.0.0-beta.6",
     "es6-shim": "github:es-shims/es6-shim@0.34.4",
-    "false": "npm:babel-core@5.8.35",
-    "false-runtime": "npm:babel-runtime@5.8.35",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
+    "semantic-ui": "github:Semantic-Org/Semantic-UI@2.1.8",
     "ts": "github:frankwallis/plugin-typescript@3.0.3",
     "zone.js": "npm:zone.js@0.5.14",
+    "github:Semantic-Org/Semantic-UI@2.1.8": {
+      "css": "github:systemjs/plugin-css@0.1.20",
+      "jquery": "github:components/jquery@2.2.0"
+    },
     "github:frankwallis/plugin-typescript@3.0.3": {
       "typescript": "npm:typescript@1.9.0-dev.20160214"
     },
@@ -90,9 +93,6 @@ System.config({
     },
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
-    },
-    "npm:babel-runtime@5.8.35": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:bn.js@4.10.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
