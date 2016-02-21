@@ -5,7 +5,28 @@ import { Component, View } from 'angular2/core';
 })
 @View({
     template: `
-        <h1>Login page</h1>
+        <div class="ui one column center aligned grid">
+            <div class="column six wide">
+                <h2 class="center aligned header">Log in</h2>
+                <div class="ui form">
+                    <div class="field">
+                        <div class="ui icon input">
+                            <input type="text" placeholder="email" name="password"/>
+                            <i class="mail icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui icon input">
+                            <input type="password" placeholder="password" name="password"/>
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input type="submit" value="Log in" class="ui large fluid brown button">
+                    </div>
+                </div>
+            </div>
+        </div>
     `
 })
 export class Login {

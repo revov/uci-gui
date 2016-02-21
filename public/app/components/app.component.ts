@@ -15,7 +15,7 @@ import {Login} from './login.component';
                 <div class="ui inverted fixed menu brown navbar page grid">\n\
                     <a [routerLink]="['Home']" class="brand item">UCI GUI</a>
                     <div class="right menu">
-                        <a [routerLink]="['Login']" class="item">Login</a>
+                        <a [routerLink]="['Login']" class="item">Log in</a>
                     </div>
                 </div>
             </div>
