@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
 
+//common configuration
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 // Database and ODM configuration
 var dbConfig = require('./config/db.js');
 var mongoose = require('mongoose');
@@ -14,7 +18,8 @@ app.use(session({
     saveUninitialized: false,
     secret: 'mySecret',
     store: new MongoStore({
-        mongooseConnection: mongoose.connection
+        mongooseConnection: mongoose.connection,
+        ttl: 14 * 24 * 60 * 60 // = 14 days. Default
     })
 }));
 
@@ -24,19 +29,11 @@ var passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-    done(null, user._id);
-});
-
-var User = require('./models/user.js');
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-        done(err, user);
-    });
-});
+var initPassport = require('./passport/init');
+initPassport(passport);
 
 // Routes configuration
-app.use('/api', require('./api'));
+app.use('/api', require('./api')(passport));
 
 app.use('/public', express.static(__dirname + '/public'));
 

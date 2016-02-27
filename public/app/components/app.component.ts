@@ -4,9 +4,12 @@ import 'semantic-ui';
 
 import {Home} from './home.component';
 import {Login} from './login.component';
+import {Register} from './register.component';
+import {AuthenticationService} from '../services/authentication.service';
 
 @Component({
-    selector: 'main-app'
+    selector: 'main-app',
+    providers: [AuthenticationService]
 })
 @View({
     template: `
@@ -39,10 +42,7 @@ import {Login} from './login.component';
 })
 @RouteConfig([
     { path: '/', name: 'Home', component: Home, useAsDefault: true },
-    { path: '/login', name: 'Login', component: Login }
+    { path: '/login', name: 'Login', component: Login },
+    { path: '/register', name: 'Register', component: Register }
 ])
-export class App {
-    constructor() {
-
-    }
-}
+export class App {}
