@@ -9,10 +9,11 @@ import {Register} from './register.component';
 import {User} from '../models/user';
 
 import {AuthenticationService} from '../services/authentication.service';
+import {LoggerService} from '../services/logger.service';
 
 @Component({
     selector: 'main-app',
-    providers: [AuthenticationService]
+    providers: [AuthenticationService, LoggerService]
 })
 @View({
     template: `

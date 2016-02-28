@@ -8,6 +8,7 @@ import {
 	FORM_DIRECTIVES
 } from 'angular2/common';
 import {AuthenticationService} from '../services/authentication.service';
+import {LoggerService} from '../services/logger.service';
 import {Email} from '../validators/email';
 import {Identical} from '../validators/factories/identical';
 
@@ -62,7 +63,8 @@ export class Register {
     constructor (
         private _authenticationService: AuthenticationService,
         private _formBuilder: FormBuilder,
-        private _router: Router
+        private _router: Router,
+        private _logger: LoggerService
     ) {
         this.emailControl = new Control(
             "", 
@@ -90,7 +92,7 @@ export class Register {
         this._authenticationService.register(this.form.value)
         .subscribe(
             user => { this._router.navigate(['Home'])},
-            err => { console.log(err); this.serverError = true; }
+            err => { this._logger.warn(err); this.serverError = true; }
         );
     }
 }

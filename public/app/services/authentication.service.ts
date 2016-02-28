@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers, RequestOptions} from 'angular2/http';
 import {User} from '../models/user';
+import {LoggerService} from './logger.service';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -16,23 +17,26 @@ export class AuthenticationService {
     
     public currentUser: Subject<User> = new Subject<User>();
 
-    constructor (private http: Http) {
+    constructor (
+        private _http: Http,
+        private _logger: LoggerService
+    ) {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         this._requestOptions = new RequestOptions({ headers: headers });
 
-        this.http.get(this._userUrl, this._requestOptions)
+        this._http.get(this._userUrl, this._requestOptions)
                         .map(res => <User> res.json())
                         .subscribe(
                             user => this.currentUser.next(user),
-                            err => console.log('No user logged in.')
+                            err => _logger.info('No user logged in.')
                         );
 
         this.currentUser.subscribe(user => {
             if(user) {
-                console.log('User logged in:');
-                console.log(user);
+                _logger.info('User logged in.');
+                _logger.debug(user);
             } else {
-                console.log('User logged out.');
+                _logger.info('User logged out.');
             }
         });
     }
@@ -40,7 +44,7 @@ export class AuthenticationService {
     login ( loginData : {} ) : Observable<User> {
         let body = JSON.stringify(loginData);
 
-        return this.http.post(this._loginUrl, body, this._requestOptions)
+        return this._http.post(this._loginUrl, body, this._requestOptions)
                         .map(res => {
                             let user : User = res.json();
                             this.currentUser.next(user);
@@ -50,7 +54,7 @@ export class AuthenticationService {
     }
 
     logout () : Observable<boolean> {
-        return this.http.post(this._logoutUrl, '', this._requestOptions)
+        return this._http.post(this._logoutUrl, '', this._requestOptions)
                         .map(res => {
                             this.currentUser.next(null);
 
@@ -60,8 +64,8 @@ export class AuthenticationService {
 
     register ( registrationData : {} ) : Observable<User> {
         let body = JSON.stringify(registrationData);
-        
-        return this.http.post(this._registerUrl, body, this._requestOptions)
+
+        return this._http.post(this._registerUrl, body, this._requestOptions)
                         .map(res => {
                             let user : User = res.json();
                             this.currentUser.next(user);

@@ -8,6 +8,7 @@ import {
 	FORM_DIRECTIVES
 } from 'angular2/common';
 import {AuthenticationService} from '../services/authentication.service';
+import {LoggerService} from '../services/logger.service';
 import {Email} from '../validators/email';
 
 @Component({})
@@ -23,7 +24,7 @@ import {Email} from '../validators/email';
                     </div>
                     <div class="field" [ngClass]="{error: (!emailControl.valid && !emailControl.pristine)}">
                         <div class="ui icon input">
-                            <input type="text" placeholder="email"  required ngControl="email"/>
+                            <input type="text" placeholder="email" required ngControl="email"/>
                             <i class="mail icon"></i>
                         </div>
                     </div>
@@ -53,7 +54,8 @@ export class Login {
     constructor (
         private _authenticationService: AuthenticationService,
         private _formBuilder: FormBuilder,
-        private _router: Router
+        private _router: Router,
+        private _logger: LoggerService
     ) {
         this.emailControl = new Control(
             "", 
@@ -65,7 +67,7 @@ export class Login {
             Validators.compose([Validators.required, Validators.minLength(1)])
         );
 
-        this.form = _formBuilder.group({
+        this.form = this._formBuilder.group({
             email: this.emailControl,
             password: this.passwordControl
         });
@@ -75,7 +77,7 @@ export class Login {
         this._authenticationService.login(this.form.value)
         .subscribe(
             user => { this._router.navigate(['Home'])},
-            err => { console.log(err); this.serverError = true; }
+            err => { this._logger.warn(err); this.serverError = true; }
         );
     }
 }
