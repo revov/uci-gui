@@ -89,7 +89,7 @@ export class Register {
     onRegisterSubmit() {
         this._authenticationService.register(this.form.value)
         .subscribe(
-            user => { console.log(user); this._router.navigate(['Home'])},
+            user => { this._router.navigate(['Home'])},
             err => { console.log(err); this.serverError = true; }
         );
     }
