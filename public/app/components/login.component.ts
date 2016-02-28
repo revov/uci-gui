@@ -1,7 +1,14 @@
 import { Component, View } from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {
+	FormBuilder,
+	Validators,
+	Control,
+	ControlGroup,
+	FORM_DIRECTIVES
+} from 'angular2/common';
 import {AuthenticationService} from '../services/authentication.service';
-import {User} from '../models/user';
+import {Email} from '../validators/email';
 
 @Component({})
 @View({
@@ -9,44 +16,66 @@ import {User} from '../models/user';
         <div class="ui one column center aligned grid">
             <div class="column six wide">
                 <h2 class="center aligned header">Log in</h2>
-                <div class="ui form">
-                    <div class="field">
+                <form class="ui form error" [ngFormModel]="form" (ngSubmit)="onLoginSubmit()">
+                    <div class="ui error message" *ngIf="serverError">
+                        <div class="header">Authentication failed.</div>
+                        <p>Please check your credentials.</p>
+                    </div>
+                    <div class="field" [ngClass]="{error: (!emailControl.valid && !emailControl.pristine)}">
                         <div class="ui icon input">
-                            <input type="text" placeholder="email" name="email" [(ngModel)]="model.email"/>
+                            <input type="text" placeholder="email"  required ngControl="email"/>
                             <i class="mail icon"></i>
                         </div>
                     </div>
-                    <div class="field">
+                    <div class="field" [ngClass]="{error: (!passwordControl.valid && !passwordControl.pristine)}">
                         <div class="ui icon input">
-                            <input type="password" placeholder="password" name="password" [(ngModel)]="model.password"/>
+                            <input type="password" placeholder="password" required ngControl="password"/>
                             <i class="lock icon"></i>
                         </div>
                     </div>
                     <div class="field">
-                        <input type="submit" value="Log in" class="ui large fluid brown button" (click)="onLoginSubmit()">
+                        <input type="submit" value="Log in" [disabled]="!form.valid" class="ui large fluid brown button">
                     </div>
-                    <div class="field">
-                        <div [routerLink]="['/Register']" class="ui large fluid gray button">Don't have an account?</div>
-                    </div>
-                </div>
+                    <a [routerLink]="['/Register']">Don't have an account?</a>
+                </form>
             </div>
         </div>
     `,
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, FORM_DIRECTIVES]
 })
 export class Login {
-    model = new User(null, '', '');
+    form: ControlGroup;
+    emailControl: Control;
+    passwordControl: Control;
+    
+    serverError: boolean = false;
 
-    constructor (private _authenticationService: AuthenticationService) {}
+    constructor (
+        private _authenticationService: AuthenticationService,
+        private _formBuilder: FormBuilder,
+        private _router: Router
+    ) {
+        this.emailControl = new Control(
+            "", 
+            Validators.compose([Validators.required, Email.validate])
+        );
+
+        this.passwordControl = new Control(
+            '',
+            Validators.compose([Validators.required, Validators.minLength(1)])
+        );
+
+        this.form = _formBuilder.group({
+            email: this.emailControl,
+            password: this.passwordControl
+        });
+    }
 
     onLoginSubmit() {
-        this._authenticationService.login({
-            email: this.model.email,
-            password: this.model.password
-        })
+        this._authenticationService.login(this.form.value)
         .subscribe(
-            user => console.log(user),
-            err => console.log(err)
+            user => { this._router.navigate(['Home'])},
+            err => { console.log(err); this.serverError = true; }
         );
     }
 }
