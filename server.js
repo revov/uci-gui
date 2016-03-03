@@ -20,7 +20,10 @@ app.use(session({
     store: new MongoStore({
         mongooseConnection: mongoose.connection,
         ttl: 14 * 24 * 60 * 60 // = 14 days. Default
-    })
+    }),
+    cookie: {
+        maxAge: 14 * 24 * 60 * 60 * 1000 // = 14 days.
+    }
 }));
 
 // Passport JS configuration
