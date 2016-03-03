@@ -76,7 +76,7 @@ export class Login {
     onLoginSubmit() {
         this._authenticationService.login(this.form.value)
         .subscribe(
-            user => { this._router.navigate(['Home'])},
+            user => { this._router.navigate(['Games'])},
             err => { this._logger.warn(err); this.serverError = true; }
         );
     }
