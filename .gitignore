@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 public/jspm_packages
 /nbproject
+/typings
+.vscode

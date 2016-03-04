@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+var Game = require('./game.js');
 
 var UserSchema = new Schema({
     email: String,
