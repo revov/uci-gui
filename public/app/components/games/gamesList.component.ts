@@ -1,7 +1,7 @@
 import { Component, View } from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router, CanActivate} from 'angular2/router';
-import {ImportPgn} from './buttons/importPgn.component';
-import {LoggerService} from '../services/logger.service';
+import {ImportPgn} from '../buttons/importPgn.component';
+import {LoggerService} from '../../services/logger.service';
 
 @Component({})
 @View({
@@ -19,9 +19,9 @@ import {LoggerService} from '../services/logger.service';
     // and the back end won't serve any content anyway
     return true;
 })
-export class Games {
+export class GamesList {
     constructor ( private _logger: LoggerService ) {}
-    
+
     onPgnImport(pgn : String) {
         this._logger.debug('Importing PGN:\n' + pgn);
         // TODO: create a service and import the pgn calling the backend API

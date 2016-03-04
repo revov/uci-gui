@@ -6,7 +6,7 @@ import 'semantic-ui';
 import {Home} from './home.component';
 import {Login} from './login.component';
 import {Register} from './register.component';
-import {Games} from './games.component';
+import {Games} from './games/games.component';
 
 import {User} from '../models/user';
 
@@ -56,7 +56,7 @@ import {LoggerService} from '../services/logger.service';
     { path: '/', name: 'Home', component: Home, useAsDefault: true },
     { path: '/login', name: 'Login', component: Login },
     { path: '/register', name: 'Register', component: Register },
-    { path: '/games', name: 'Games', component: Games }
+    { path: '/games/...', name: 'Games', component: Games }
 ])
 export class App implements OnDestroy {
     private _currentUser: User = null;
