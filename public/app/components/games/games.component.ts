@@ -20,6 +20,6 @@ import {GameDetail} from './gameDetail.component';
 })
 @RouteConfig([
     { path: '/', name: 'GamesList', component: GamesList, useAsDefault: true },
-    { path: '/:id', name: 'GamesList', component: GameDetail }
+    { path: '/:id', name: 'GameDetail', component: GameDetail }
 ])
 export class Games {}

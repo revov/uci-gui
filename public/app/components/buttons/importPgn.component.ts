@@ -9,9 +9,8 @@ import {ModalControl} from '../../integration/semantic/controls/modalControl';
 @View({
     template: `
         <div>
-            <button class="ui compact labeled icon button" (click)="onClick()">
-                <i class="bar chart icon"></i>
-                Import
+            <button class="ui button" (click)="onClick()">
+                <i class="plus icon"></i>
             </button>
 
             <div [semanticModal]="_modalControl" class="ui modal">
