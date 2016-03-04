@@ -44,6 +44,7 @@
     "dependencies": {
       "angular2": "npm:angular2@^2.0.0-beta.6",
       "es6-shim": "github:es-shims/es6-shim@^0.34.4",
+      "oakmac/chessboardjs": "github:oakmac/chessboardjs@master",
       "reflect-metadata": "npm:reflect-metadata@^0.1.3",
       "rxjs": "npm:rxjs@^5.0.0-beta.2",
       "semantic-ui": "github:Semantic-Org/Semantic-UI@^2.1.8",
@@ -51,6 +52,27 @@
     },
     "devDependencies": {
       "ts": "github:frankwallis/plugin-typescript@^3.0.3"
+    },
+    "overrides": {
+      "github:oakmac/chessboardjs@master": {
+        "main": "js/chessboard-0.3.0.js",
+        "directories": {
+          "lib": "www/releases/0.3.0"
+        },
+        "shim": {
+          "js/chessboard-0.3.0": {
+            "deps": [
+              "jquery",
+              "../css/chessboard-0.3.0.css!"
+            ],
+            "exports": "ChessBoard"
+          }
+        },
+        "dependencies": {
+          "jquery": "jspm:jquery@*",
+          "css": "jspm:css@*"
+        }
+      }
     }
   }
 }

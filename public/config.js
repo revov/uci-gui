@@ -30,6 +30,7 @@ System.config({
   map: {
     "angular2": "npm:angular2@2.0.0-beta.7",
     "es6-shim": "github:es-shims/es6-shim@0.34.4",
+    "oakmac/chessboardjs": "github:oakmac/chessboardjs@master",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "rxjs": "npm:rxjs@5.0.0-beta.2",
     "semantic-ui": "github:Semantic-Org/Semantic-UI@2.1.8",
@@ -74,6 +75,10 @@ System.config({
     },
     "github:jspm/nodelibs-vm@0.1.0": {
       "vm-browserify": "npm:vm-browserify@0.0.4"
+    },
+    "github:oakmac/chessboardjs@master": {
+      "css": "github:systemjs/plugin-css@0.1.20",
+      "jquery": "npm:jquery@2.2.1"
     },
     "npm:angular2@2.0.0-beta.7": {
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
