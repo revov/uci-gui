@@ -11,11 +11,12 @@ import {Games} from './games/games.component';
 import {User} from '../models/user';
 
 import {AuthenticationService} from '../services/authentication.service';
+import {NotificationService} from '../services/notification.service';
 import {LoggerService} from '../services/logger.service';
 
 @Component({
     selector: 'main-app',
-    providers: [AuthenticationService, LoggerService]
+    providers: [AuthenticationService, LoggerService, NotificationService]
 })
 @View({
     template: `

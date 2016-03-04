@@ -1,9 +1,14 @@
 import { Component, View } from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router, CanActivate} from 'angular2/router';
+
 import {ImportPgn} from '../buttons/importPgn.component';
 import {LoggerService} from '../../services/logger.service';
+import {NotificationService, NotificationLevel} from '../../services/notification.service';
+import {ImportService} from '../../services/api/import.service';
 
-@Component({})
+@Component({
+    providers: [ImportService]
+})
 @View({
     template: `
         <div>
@@ -20,10 +25,18 @@ import {LoggerService} from '../../services/logger.service';
     return true;
 })
 export class GamesList {
-    constructor ( private _logger: LoggerService ) {}
+    constructor (
+        private _logger: LoggerService,
+        private _importService: ImportService,
+        private _notificationService: NotificationService
+    ) {}
 
-    onPgnImport(pgn : String) {
+    onPgnImport(pgn : string) {
         this._logger.debug('Importing PGN:\n' + pgn);
-        // TODO: create a service and import the pgn calling the backend API
+        this._importService.uploadPgn(pgn)
+            .subscribe(
+                () => this._notificationService.notify(NotificationLevel.success, 'Successfully imported PGN.'),
+                () => this._notificationService.notify(NotificationLevel.error, 'There was an error importing the PGN.')
+            );
     }
 }
