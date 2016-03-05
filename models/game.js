@@ -11,13 +11,14 @@ var GameSchema = new Schema({
                     score: { type: String, required: true }
                 }
         ],
-        status: { type: String, required: true, default: constants.StatusTypes.Pending }
+        status: { type: String, required: true, default: constants.StatusTypes.Pending },
+        progress: { type: Number, required: true, default: 0 }
     },
     white: { type: String, required: true, default: constants.NotAvailable },
     black: { type: String, required: true, default: constants.NotAvailable },
     whiteElo: { type: String, default: constants.NotAvailable },
     blackElo: { type: String, default: constants.NotAvailable },
-    round: { type: Number, default: 0 },
+    round: { type: String, default: constants.NotAvailable },
     result: { type: String, default: constants.NotAvailable },
     event: { type: String, default: constants.NotAvailable },
     site: { type: String, default: constants.NotAvailable },

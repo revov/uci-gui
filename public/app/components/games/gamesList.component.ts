@@ -32,6 +32,7 @@ import {Game} from '../../models/game';
                         <th>White</th>
                         <th>Black</th>
                         <th>Result</th>
+                        <th>Progress</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -41,6 +42,7 @@ import {Game} from '../../models/game';
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.white}}</td>
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.black}}</td>
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.result}}</td>
+                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.analysis.progress}}%</td>
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.analysis.status}}</td>
                         <td>
                             <button class="ui icon button" (click)="onDelete(game._id, index)">
@@ -50,7 +52,7 @@ import {Game} from '../../models/game';
                     </tr>
                 </tbody>
             </table>
-            
+
         </div>
     `,
     styles: [`
@@ -99,7 +101,7 @@ export class GamesList {
                 () => this._isLoading = false
             );
     }
-    
+
     onDelete(id: string, index: number) {
         this._isLoading = true;
         this._gamesService.delete(id)

@@ -8,13 +8,14 @@ export class Game {
                     score: string
                 }
         ],
-        status: string
+        status: string,
+        progress: number
     };
     white: string;
     black: string;
     whiteElo: string;
     blackElo: string;
-    round: number;
+    round: string;
     result: string;
     event: string;
     site: string;

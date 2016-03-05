@@ -34,7 +34,6 @@ function startAnalizing(game, gameModel, chess, engine) {
     }
 
     var movesCount = moves.length;
-    // check if we have in checkmate, in threefold repetition, in stalemate or insufficient material - if yes do not analyze the last move
     if( chess.in_checkmate() || chess.in_stalemate() || chess.in_threefold_repetition() || chess.insufficient_material() ) {
         movesCount -= 1;
     }
@@ -60,11 +59,12 @@ function startAnalizing(game, gameModel, chess, engine) {
     var currentMove = '';
     for(var i = 0; i < movesCount; ++i) {
         currentMove += ' ' + moves[i];
-        let currentMoveForPromise = currentMove;
+        let currentPosition = currentMove;
         let currentScore = '';
+        let currentMoveIndex = i + 1;
         promiseChain = promiseChain.then(function () {
                         // Position set
-                        return engine.positionCommand('startpos', currentMoveForPromise.trim());
+                        return engine.positionCommand('startpos', currentPosition.trim());
                     }).then(function () {
                         // Starting analysis
                         return engine.goInfiniteCommand(function infoHandler(info) {
@@ -78,9 +78,13 @@ function startAnalizing(game, gameModel, chess, engine) {
                         // Stopping analysis
                         return engine.stopCommand();
                     }).then(function (bestmove) {
-                        return gameModel.update(updateCriteria,
-                                    { $push: { 'analysis.moves': {bestMove: bestmove.from + ' ' + bestmove.to, score: currentScore} }})
-                                .exec();
+                        return gameModel.update(
+                                    updateCriteria,
+                                    {
+                                        $push: { 'analysis.moves': {bestMove: bestmove.from + ' ' + bestmove.to, score: currentScore} },
+                                        $set: { 'analysis.progress': Math.round( currentMoveIndex / movesCount * 100 ) }
+                                    }
+                                ).exec();
                     });
     }
 
