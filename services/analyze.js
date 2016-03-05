@@ -12,7 +12,7 @@ function getLANMove(move) {
     }
 
     return lanMove;
-}
+};
 
 function convertPGNToLAN(movesArray) {
     var movesToReturn = [];
@@ -23,7 +23,7 @@ function convertPGNToLAN(movesArray) {
     }
 
     return movesToReturn;
-}
+};
 
 function startAnalizing(game, gameModel, chess, engine) {
     // convert the pgn notation to long algebraic notation
@@ -32,7 +32,13 @@ function startAnalizing(game, gameModel, chess, engine) {
         console.log('Game contains no moves');
         return;
     }
+
     var movesCount = moves.length;
+    // check if we have in checkmate, in threefold repetition or in stalemate - if yes do not analyze the last move
+    if( chess.in_checkmate() || chess.in_stalemate() || chess.in_threefold_repetition() ) {
+        movesCount -= 1;
+    }
+
     var updateCriteria = {_id: game._id};
 
     var promiseChain = engine.runProcess()
@@ -67,7 +73,8 @@ function startAnalizing(game, gameModel, chess, engine) {
                                 currentScore = matches[1];
                             }
                         });
-                    }).delay(constants.Analyze.Delay).then(function () {
+                    }).delay(constants.Analyze.Delay)
+                    .then(function () {
                         // Stopping analysis
                         return engine.stopCommand();
                     }).then(function (bestmove) {
@@ -89,7 +96,7 @@ function startAnalizing(game, gameModel, chess, engine) {
                 // Stopping engine
                 return engine.quitCommand();
             }).done();
-}
+};
 
 module.exports = {
     analyze: function(game, gameModel, chessJS, engine) {
