@@ -74,8 +74,4 @@ export class MovesBrowser {
     private _getRangeOfMoves(columnIndex: number): {white: string, black: string}[] {
         return this._moves.slice(columnIndex * 10, (columnIndex + 1) * 10);
     }
-    
-    private _calculateNestedIndex(index: number, columnIndex: number): number {
-        return index + columnIndex * 10;
-    }
 }
