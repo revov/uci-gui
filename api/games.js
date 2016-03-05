@@ -25,7 +25,7 @@ module.exports = function(passport) {
         ensureLoggedIn,
         function(req, res) {
             var user = req.user.toObject();
-            Game.find({uploadedByUserId : user._id}, 'white black analysis.status dateUploaded', function(err, games) {
+            Game.find({uploadedByUserId : user._id}, '-analysis.moves', function(err, games) {
                 if( err ) {
                     res.status(400).json(err);
                 } else {

@@ -1,6 +1,6 @@
 module.exports = {
     Analyze: {
-        Delay: 2000,
+        Delay: 100,
         ScoreRegex: /score (.*) nodes/
     },
     StatusTypes: {
@@ -8,5 +8,5 @@ module.exports = {
         Analyzing : 'Analyzing',
         Pending : 'Pending'
     },
-    NotAvailable: 'N/A'
+    NotAvailable: ''
 };
