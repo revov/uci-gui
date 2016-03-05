@@ -34,8 +34,8 @@ function startAnalizing(game, gameModel, chess, engine) {
     }
 
     var movesCount = moves.length;
-    // check if we have in checkmate, in threefold repetition or in stalemate - if yes do not analyze the last move
-    if( chess.in_checkmate() || chess.in_stalemate() || chess.in_threefold_repetition() ) {
+    // check if we have in checkmate, in threefold repetition, in stalemate or insufficient material - if yes do not analyze the last move
+    if( chess.in_checkmate() || chess.in_stalemate() || chess.in_threefold_repetition() || chess.insufficient_material() ) {
         movesCount -= 1;
     }
 
