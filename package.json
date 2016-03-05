@@ -54,6 +54,7 @@
       "zone.js": "npm:zone.js@^0.5.14"
     },
     "devDependencies": {
+      "clean-css": "npm:clean-css@^3.4.10",
       "ts": "github:frankwallis/plugin-typescript@^3.0.3"
     },
     "overrides": {
