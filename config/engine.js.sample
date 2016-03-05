@@ -1,0 +1,6 @@
+module.exports = {
+    /**
+     * Full path to UCI engine executable
+     */
+    enginePath : ''
+};

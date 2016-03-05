@@ -32,8 +32,8 @@ Prerequisites:
 npm install
 node_modules/.bin/jspm install
 ```
-### Engines: ###
-You must specify the **full** path to the engine executable inside the config/engine.js file
+### Configure UCI engine: ###
+Copy `config/engine.js.sample` to `config/engine.js` and specify the **full** path to your UCI engine executable of choice.
 
 ### Run: ###
 ```
