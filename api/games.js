@@ -1,6 +1,6 @@
 var express = require('express');
 var ensureLoggedIn = require('../passport/ensureLoggedIn');
-var Game = require('../models/game.js');
+var Game = require('../models/game');
 
 module.exports = function(passport) {
     var router = express.Router();

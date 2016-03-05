@@ -1,6 +1,8 @@
-var express = require('express');
-var ensureLoggedIn = require('../passport/ensureLoggedIn');
-var Game = require('../models/game.js');
+var express = require('express'),
+    ensureLoggedIn = require('../passport/ensureLoggedIn'),
+    Game = require('../models/game'),
+    analyzer = require('../services/analyze'),
+    Chess = require('chess.js').Chess;
 
 module.exports = function(passport) {
     var router = express.Router();
@@ -10,16 +12,25 @@ module.exports = function(passport) {
         function(req, res) {
             var user = req.user.toObject();
             if(req.body && req.body.pgnContent) {
-                var newGame = new Game({pgn: req.body.pgnContent, white: 'N/A', black: 'N/A', uploadedByUserId: user._id, 'analysis.status': 'Pending'});
-                newGame.save(function (err) {
-                            if (err) {
-                                res.status(400).json(err);
-                            } else {
-                                res.status(201).json(newGame);
-                            }
-                        });
+                var chess = new Chess();
+
+                // load the pgn
+                if( chess.load_pgn(req.body.pgnContent) ) {
+                    var pgnHeader = chess.header(),
+                        newGame = new Game({ pgn: req.body.pgnContent, uploadedByUserId: user._id, white: pgnHeader.White, black: pgnHeader.Black });
+                    newGame.save(function (err) {
+                                if (err) {
+                                    res.status(400).json(err);
+                                } else {
+                                    res.status(201).json(newGame);
+                                    analyzer.analyze(newGame, Game, chess);
+                                }
+                            });
+                } else {
+                    res.status(400).json({message: 'Could not parse provided pgn' });
+                }
             } else {
-                res.status(400).json({message: 'Empty PGN'});
+                res.status(400).json({message: 'Empty PGN' });
             }
         }
     );
