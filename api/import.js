@@ -17,7 +17,19 @@ module.exports = function(passport) {
                 // load the pgn
                 if( chess.load_pgn(req.body.pgnContent) ) {
                     var pgnHeader = chess.header(),
-                        newGame = new Game({ pgn: req.body.pgnContent, uploadedByUserId: user._id, white: pgnHeader.White, black: pgnHeader.Black });
+                        newGame = new Game({
+                                        pgn: req.body.pgnContent,
+                                        uploadedByUserId: user._id,
+                                        white: pgnHeader.White,
+                                        whiteElo: pgnHeader.WhiteElo,
+                                        black: pgnHeader.Black,
+                                        blackElo: pgnHeader.BlackElo,
+                                        site: pgnHeader.Site,
+                                        datePlayed: pgnHeader.Date,
+                                        round: pgnHeader.Round,
+                                        event: pgnHeader.Event,
+                                        result: pgnHeader.Result
+                                  });
                     newGame.save(function (err) {
                                 if (err) {
                                     res.status(400).json(err);
