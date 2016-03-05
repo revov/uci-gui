@@ -33,14 +33,20 @@ import {Game} from '../../models/game';
                         <th>Black</th>
                         <th>Result</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="#game of _games; #i = index" [routerLink]="['/Games', 'GameDetail', {id: game._id}]">
-                        <td>{{game.white}}</td>
-                        <td>{{game.black}}</td>
-                        <td>To do</td>
-                        <td>{{game.analysis.status}}</td>
+                    <tr *ngFor="#game of _games; #i = index">
+                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.white}}</td>
+                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.black}}</td>
+                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.result}}</td>
+                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.analysis.status}}</td>
+                        <td>
+                            <button class="ui icon button" (click)="onDelete(game._id, index)">
+                                <i class="red outline trash icon"></i>
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -48,7 +54,7 @@ import {Game} from '../../models/game';
         </div>
     `,
     styles: [`
-        tbody tr {
+        tbody td[href] {
             cursor: pointer; cursor: hand;
         }
     `],
@@ -91,6 +97,24 @@ export class GamesList {
                 games => this._games = games,
                 () => this._isLoading = false,
                 () => this._isLoading = false
+            );
+    }
+    
+    onDelete(id: string, index: number) {
+        this._isLoading = true;
+        this._gamesService.delete(id)
+            .subscribe(
+                () => {
+                    this._games.splice(index, 1);
+                    this._notificationService.notify(NotificationLevel.success, 'Successfully deleted game.');
+                },
+                () => {
+                    this._notificationService.notify(NotificationLevel.error, 'There was an error deleting the game.');
+                    this._isLoading = false;
+                },
+                () => {
+                    this._isLoading = false;
+                }
             );
     }
 }

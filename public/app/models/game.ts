@@ -12,6 +12,13 @@ export class Game {
     };
     white: string;
     black: string;
+    whiteElo: string;
+    blackElo: string;
+    round: number;
+    result: string;
+    event: string;
+    site: string;
+    datePlayed: string;
     dateUploaded: Date;
     uploadedByUserId: string;
 }

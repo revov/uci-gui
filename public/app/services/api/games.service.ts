@@ -22,4 +22,9 @@ export class GamesService {
         return this._http.get(this._gamesUrl, this._requestOptions)
                         .map(res => <Game[]>res.json());
     }
+    
+    delete(_id: string) : Observable<boolean> {
+        return this._http.delete(this._gamesUrl + '/' + _id, this._requestOptions)
+                        .map(res => true);
+    }
 }
