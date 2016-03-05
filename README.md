@@ -32,6 +32,8 @@ Prerequisites:
 npm install
 node_modules/.bin/jspm install
 ```
+### Engines: ###
+You must specify the **full** path to the engine executable inside the config/engine.js file
 
 ### Run: ###
 ```
