@@ -7,7 +7,7 @@ import { Component, View, Input, Output, EventEmitter } from 'angular2/core';
     template: `
         <div class="ui horizontal list">
             <div *ngFor="#move of _getColumnsCountAsIterable(); #column = index" class="item">
-                <table class="ui striped collapsing celled definition table">
+                <table class="ui small striped celled collapsing compact definition table">
                     <tbody>
                         <tr *ngFor="#move of _getRangeOfMoves(column); #i=index">
                             <td>{{(column * 10 + i)+1}}</td>
