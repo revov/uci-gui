@@ -12,7 +12,7 @@ module.exports = function(passport) {
             Game.findById(req.params.id, function(err, game) {
                 if( err ) {
                     res.status(400).json(err);
-                } else if(game.uploadedByUserId !== user._id) {
+                } else if(!game.uploadedByUserId.equals(user._id)) {
                     res.status(400).json({message: 'Requested PGN is not for this user'});
                 } else {
                     res.status(200).json(game);

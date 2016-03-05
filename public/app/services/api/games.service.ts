@@ -18,13 +18,18 @@ export class GamesService {
         this._requestOptions = new RequestOptions({ headers: headers });
     }
 
+    get(gameId: string): Observable<Game> {
+        return this._http.get(this._gamesUrl + '/' + gameId, this._requestOptions)
+                        .map(res => <Game>res.json());
+    }
+
     getAll() : Observable<Game[]> {
         return this._http.get(this._gamesUrl, this._requestOptions)
                         .map(res => <Game[]>res.json());
     }
     
-    delete(_id: string) : Observable<boolean> {
-        return this._http.delete(this._gamesUrl + '/' + _id, this._requestOptions)
+    delete(gameId: string) : Observable<boolean> {
+        return this._http.delete(this._gamesUrl + '/' + gameId, this._requestOptions)
                         .map(res => true);
     }
 }

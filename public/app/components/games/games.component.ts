@@ -1,10 +1,13 @@
 import { Component, View } from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig, CanActivate} from 'angular2/router';
 
+import {GamesService} from '../../services/api/games.service';
 import {GamesList} from './gamesList.component';
 import {GameDetail} from './gameDetail.component';
 
-@Component({})
+@Component({
+    providers: [GamesService]
+})
 @View({
     template: `
         <router-outlet></router-outlet>

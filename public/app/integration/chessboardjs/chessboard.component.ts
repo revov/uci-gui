@@ -1,4 +1,4 @@
-import { Component, View, Input, AfterViewInit, OnDestroy } from 'angular2/core';
+import { Component, View, Input, AfterViewInit, OnDestroy, NgZone } from 'angular2/core';
 import {LoggerService} from '../../services/logger.service';
 import 'oakmac/chessboardjs';
 
@@ -16,7 +16,9 @@ export class Chessboard implements AfterViewInit, OnDestroy {
     set fen(fen: string) {
         this._fen = fen;
         if(this._board) {
-            this._board.position(fen);
+            this._zone.runOutsideAngular(() => {
+                this._board.position(fen);
+            });
         }
     }
     
@@ -25,13 +27,15 @@ export class Chessboard implements AfterViewInit, OnDestroy {
     private _unique_id : string = 'board' + (new Date()).getTime();
     private _board: any;
 
-    constructor (private _logger: LoggerService) {}
+    constructor (private _logger: LoggerService, private _zone : NgZone) {}
 
     ngAfterViewInit () {
-        this._board = (<any>window).ChessBoard(this._unique_id, {
-            // Override the default img path to comply with JSPM
-            pieceTheme: 'public/jspm_packages/github/oakmac/chessboardjs@master/img/chesspieces/wikipedia/{piece}.png',
-            position: this.fen
+        this._zone.runOutsideAngular(() => {
+            this._board = (<any>window).ChessBoard(this._unique_id, {
+                // Override the default img path to comply with JSPM
+                pieceTheme: 'public/jspm_packages/github/oakmac/chessboardjs@master/img/chesspieces/wikipedia/{piece}.png',
+                position: this.fen
+            });
         });
     }
     

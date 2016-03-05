@@ -45,6 +45,7 @@
     },
     "dependencies": {
       "angular2": "npm:angular2@^2.0.0-beta.6",
+      "chess.js": "npm:chess.js@^0.9.3",
       "es6-shim": "github:es-shims/es6-shim@^0.34.4",
       "oakmac/chessboardjs": "github:oakmac/chessboardjs@master",
       "reflect-metadata": "npm:reflect-metadata@^0.1.3",

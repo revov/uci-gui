@@ -9,7 +9,7 @@ import {GamesService} from '../../services/api/games.service';
 import {Game} from '../../models/game';
 
 @Component({
-    providers: [ImportService, GamesService]
+    providers: [ImportService]
 })
 @View({
     template: `

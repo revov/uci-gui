@@ -29,6 +29,7 @@ System.config({
 
   map: {
     "angular2": "npm:angular2@2.0.0-beta.7",
+    "chess.js": "npm:chess.js@0.9.3",
     "clean-css": "npm:clean-css@3.4.10",
     "es6-shim": "github:es-shims/es6-shim@0.34.4",
     "oakmac/chessboardjs": "github:oakmac/chessboardjs@master",
