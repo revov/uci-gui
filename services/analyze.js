@@ -25,10 +25,11 @@ function convertPGNToLAN(movesArray) {
     return movesToReturn;
 };
 
-function startAnalizing(game, gameModel, chess, engine) {
+function startAnalizing(game, gameModel, chess, socketIO, engine) {
     // convert the pgn notation to long algebraic notation
     var moves = convertPGNToLAN(chess.history({verbose: true}));
     if(!moves.length) {
+        socketIO.sockets.in(game._id).emit('error', { message: 'Game contains no moves' });
         console.log('Game contains no moves');
         return;
     }
@@ -42,9 +43,16 @@ function startAnalizing(game, gameModel, chess, engine) {
 
     var promiseChain = engine.runProcess()
                         .then(function() {
-                            return gameModel.update(updateCriteria,
-                                { $set: { 'analysis.status': constants.StatusTypes.Analyzing }})
-                                .exec();
+                            return gameModel.update(
+                                    updateCriteria,
+                                    { $set: { 'analysis.status': constants.StatusTypes.Analyzing }}
+                                ).exec(function(err, res) {
+                                        if(err) {
+                                            socketIO.sockets.in(game._id).emit('error', { message: 'Error setting status' });
+                                        } else {
+                                            socketIO.sockets.in(game._id).emit('status', { status: constants.StatusTypes.Analyzing });
+                                        }
+                                    });
                         }).then(function () {
                             // Started
                             return engine.uciCommand();
@@ -60,7 +68,7 @@ function startAnalizing(game, gameModel, chess, engine) {
     for(var i = 0; i < movesCount; ++i) {
         currentMove += ' ' + moves[i];
         let currentPosition = currentMove;
-        let currentScore = '';
+        let currentScore = {};
         let currentMoveIndex = i + 1;
         promiseChain = promiseChain.then(function () {
                         // Position set
@@ -69,8 +77,18 @@ function startAnalizing(game, gameModel, chess, engine) {
                         // Starting analysis
                         return engine.goInfiniteCommand(function infoHandler(info) {
                             let matches = info.match(constants.Analyze.ScoreRegex);
-                            if(matches && matches[1]) {
-                                currentScore = matches[1];
+                            if(matches && matches[1] && matches[2] ) {
+                                if(matches[1] === 'mate' ) {
+                                    currentScore.mate = matches[2];
+                                    currentScore.cp = constants.NotAvailable;
+                                } else if(matches[1] === 'cp' ) {
+                                    currentScore.mate = constants.NotAvailable;
+                                    currentScore.cp = matches[2];
+                                } else {
+                                    // case for lowerbound and upperbound
+                                    currentScore.mate = constants.NotAvailable;
+                                    currentScore.cp = constants.NotAvailable;
+                                }
                             }
                         });
                     }).delay(constants.Analyze.Delay)
@@ -78,13 +96,26 @@ function startAnalizing(game, gameModel, chess, engine) {
                         // Stopping analysis
                         return engine.stopCommand();
                     }).then(function (bestmove) {
+                        let currentProgress = Math.round( currentMoveIndex / movesCount * 100 );
                         return gameModel.update(
                                     updateCriteria,
                                     {
-                                        $push: { 'analysis.moves': {bestMove: bestmove.from + ' ' + bestmove.to, score: currentScore} },
-                                        $set: { 'analysis.progress': Math.round( currentMoveIndex / movesCount * 100 ) }
+                                        $push: {
+                                            'analysis.moves': {
+                                                bestMove: bestmove.from + ' ' + bestmove.to,
+                                                'score.cp': currentScore.cp,
+                                                'score.mate': currentScore.mate
+                                             }
+                                        },
+                                        $set: { 'analysis.progress': currentProgress }
                                     }
-                                ).exec();
+                                ).exec(function(err, res) {
+                                        if(err) {
+                                            socketIO.sockets.in(game._id).emit('error', { message: 'Error analyzing game' });
+                                        } else {
+                                            socketIO.sockets.in(game._id).emit('progress', { progress: currentProgress });
+                                        }
+                                    });
                     });
     }
 
@@ -92,9 +123,16 @@ function startAnalizing(game, gameModel, chess, engine) {
                 // Stopping engine
                 return engine.quitCommand();
             }).then(function () {
-                return gameModel.update(updateCriteria,
-                            { $set: { 'analysis.status': constants.StatusTypes.Complete }})
-                        .exec();
+                return gameModel.update(
+                            updateCriteria,
+                            { $set: { 'analysis.status': constants.StatusTypes.Complete }}
+                       ).exec(function(err, res) {
+                                if(err) {
+                                    socketIO.sockets.in(game._id).emit('error', { message: 'Error setting status' });
+                                } else {
+                                    socketIO.sockets.in(game._id).emit('status', { status: constants.StatusTypes.Complete });
+                                }
+                            });
             }).fail(function (error) {
                 console.error('Error:', error);
                 // Stopping engine
@@ -103,9 +141,9 @@ function startAnalizing(game, gameModel, chess, engine) {
 };
 
 module.exports = {
-    analyze: function(game, gameModel, chessJS, engine) {
+    analyze: function(game, gameModel, chessJS, socketIO, engine) {
         engine = engine || new Engine(engineConfig.enginePath);
 
-        startAnalizing(game, gameModel, chessJS, engine);
+        startAnalizing(game, gameModel, chessJS, socketIO, engine);
     }
 };

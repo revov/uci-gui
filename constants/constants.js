@@ -1,7 +1,7 @@
 module.exports = {
     Analyze: {
         Delay: 100,
-        ScoreRegex: /score (.*) nodes/
+        ScoreRegex: /score (.*) (-?\d+) nodes/
     },
     StatusTypes: {
         Complete : 'Complete',

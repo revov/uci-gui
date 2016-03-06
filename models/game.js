@@ -8,7 +8,12 @@ var GameSchema = new Schema({
         moves: [
                 {
                     bestMove: { type: String, required: true },
-                    score: { type: String, required: true }
+                    score: {
+                        cp: { type: String, required: true },
+                        mate: { type: String, required: true },
+                        _id: false
+                     },
+                    _id: false
                 }
         ],
         status: { type: String, required: true, default: constants.StatusTypes.Pending },

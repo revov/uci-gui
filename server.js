@@ -1,7 +1,10 @@
 var isProduction = (process.argv.indexOf('--production') !== -1);
 
-var express = require('express');
-var app = express();
+var express = require('express'),
+    app = express(),
+    http = require('http'),
+    httpServer = http.createServer(app),
+    socketIO = require('socket.io').listen(httpServer);
 
 //common configuration
 var bodyParser = require('body-parser');
@@ -41,7 +44,7 @@ initPassport(passport);
 app.set('view engine', 'ejs');
 
 // Routes configuration
-app.use('/api', require('./api')(passport));
+app.use('/api', require('./api')(passport, socketIO));
 
 app.use('/public', express.static(__dirname + '/public'));
 // TODO: investigate what is wrong with JSPM's base URL.
@@ -54,6 +57,6 @@ app.get('*', function(req,res) {
 });
 
 // Start the server
-app.listen(3000, function () {
+httpServer.listen(3000, function () {
     console.log('UCI GUI listening on port 3000!');
 });
