@@ -11,8 +11,8 @@ import {Chess} from 'chess.js/chess';
 @View({
     template: `
         <div>
-            <chessboard [fen]="_currentPositionFen"></chessboard>
-            <moves-browser [halfMoves]="_shortHistoryCache" (moveSelected)="onMoveSelected($event)"></moves-browser>
+            <chessboard [fen]="_currentPositionIndex < 0 ? 'start' : _fenCache[_currentPositionIndex]"></chessboard>
+            <moves-browser [halfMoves]="_shortHistoryCache" (moveSelected)="_currentPositionIndex = $event"></moves-browser>
         </div>
     `,
     directives: [Chessboard, MovesBrowser]
@@ -25,19 +25,11 @@ import {Chess} from 'chess.js/chess';
     return true;
 })
 export class GameDetail {
-    private __game: Game;
-    set _game(game: Game) {
-        this.__game = game;
-        this._chessJsInstance.load_pgn(game.pgn);
-        this._shortHistoryCache = this._chessJsInstance.history();
-    }
-    get _game() {
-        return this.__game;
-    }
-
+    private _game: Game;
     private _chessJsInstance: Chess = new Chess();
     private _shortHistoryCache: any[] = [];
-    private _currentPositionFen: string = "start";
+    private _fenCache: string[] = [];
+    private _currentPositionIndex: number = -1;
 
     constructor (
         private _logger: LoggerService,
@@ -48,27 +40,43 @@ export class GameDetail {
 
         this._gamesService.get(gameId)
             .subscribe(
-                (game) => {
-                    this._game = game;
-                    this._logger.debug(game);
-                }
+                (game) => this.onGameChanged(game)
             );
     }
-    
-    onMoveSelected(index: number) {
-        this._currentPositionFen = this.getFenForPositionAtMove(index);
-    }
-    
-    /**
-     * Deal with the fact that Chess JS cannot give us the FEN string of a previous position
-     */
-    getFenForPositionAtMove(index: number) {
-        let gameReplay = new Chess();
 
-        for(let i =0; i <= index; i++) {
-            gameReplay.move(this._shortHistoryCache[i]);
+    /**
+     * All actions inside this function are slow.
+     * That's why we make sure to bulk them together and run them only once at the start
+     * 
+     * TODO: Improve performance twice by storing the history() in the database so that
+     * we dont have to call load_pgn just to get the history and replay it once again.
+     */
+    private onGameChanged(game: Game): void {
+        if(!game) {
+            return;
         }
 
-        return gameReplay.fen();
+        this._logger.debug(game);
+
+        this._fenCache = [];
+        this._currentPositionIndex = -1;
+        this._game = game;
+
+        this._chessJsInstance.load_pgn(game.pgn);
+        this._shortHistoryCache = this._chessJsInstance.history();
+
+        let gameReplay = new Chess();
+        for(let i=0; i < this._shortHistoryCache.length; i++) {
+            gameReplay.move(this._shortHistoryCache[i]);
+            this._fenCache.push(gameReplay.fen());
+        }
+    }
+    
+    private getFenForCurrentPosition(): string {
+        if(this._currentPositionIndex < 0) {
+            return 'start';
+        }
+
+        return this._fenCache[this._currentPositionIndex];
     }
 }
