@@ -69,7 +69,7 @@ function startAnalizing(game, gameModel, chess, socketIO, engine) {
         currentMove += ' ' + moves[i];
         let currentPosition = currentMove;
         let currentScore = {};
-        let currentMoveIndex = i + 1;
+        let currentMoveIndex = i;
         promiseChain = promiseChain.then(function () {
                         // Position set
                         return engine.positionCommand('startpos', currentPosition.trim());
@@ -83,7 +83,15 @@ function startAnalizing(game, gameModel, chess, socketIO, engine) {
                                     currentScore.cp = constants.NotAvailable;
                                 } else if(matches[1] === 'cp' ) {
                                     currentScore.mate = constants.NotAvailable;
-                                    currentScore.cp = matches[2];
+
+                                    // The cp score is given from the engine's perspective.
+                                    // If it is white's turn we should negate the score.
+                                    let whiteToMove = ( currentMoveIndex%2 == 0 );
+                                    if( whiteToMove ) {
+                                        currentScore.cp = -parseInt(matches[2]);
+                                    } else {
+                                        currentScore.cp = matches[2];
+                                    }
                                 } else {
                                     // case for lowerbound and upperbound
                                     currentScore.mate = constants.NotAvailable;
@@ -96,7 +104,7 @@ function startAnalizing(game, gameModel, chess, socketIO, engine) {
                         // Stopping analysis
                         return engine.stopCommand();
                     }).then(function (bestmove) {
-                        let currentProgress = Math.round( currentMoveIndex / movesCount * 100 );
+                        let currentProgress = Math.round( (currentMoveIndex+1) / movesCount * 100 );
                         return gameModel.update(
                                     updateCriteria,
                                     {

@@ -46,10 +46,6 @@ export class BarChartAnalysis implements AfterViewInit, OnDestroy {
         yaxis: {
             title: 'Pawn advantage'
         },
-        legend: {
-            x: 0,
-            y: 1.0
-        },
         bargap: 0.15,
         bargroupgap: 0.1
     };
