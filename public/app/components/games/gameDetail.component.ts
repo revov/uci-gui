@@ -1,21 +1,26 @@
 import { Component, View } from 'angular2/core';
 import {CanActivate, RouteParams} from 'angular2/router';
+import {Chess} from 'chess.js/chess';
+
 import {LoggerService} from '../../services/logger.service';
 import {Chessboard} from '../../integration/chessboardjs/chessboard.component';
 import {GamesService} from '../../services/api/games.service';
 import {Game} from '../../models/game';
 import {MovesBrowser} from './movesBrowser.component';
-import {Chess} from 'chess.js/chess';
+import {BarChartAnalysis} from '../../integration/plotly/barChartAnalysis.component';
 
 @Component({})
 @View({
     template: `
         <div>
-            <chessboard [fen]="_currentPositionIndex < 0 ? 'start' : _fenCache[_currentPositionIndex]"></chessboard>
+            <div class="ui two column grid">
+                <chessboard [fen]="_currentPositionIndex < 0 ? 'start' : _fenCache[_currentPositionIndex]" class="column"></chessboard>
+                <barchartAnalysis [moves]="_game?.analysis?.moves" [white]="_game?.white" [black]="_game?.black" [result]="_game?.result" class="column"></barchartAnalysis>
+            </div>
             <moves-browser [halfMoves]="_shortHistoryCache" (moveSelected)="_currentPositionIndex = $event"></moves-browser>
         </div>
     `,
-    directives: [Chessboard, MovesBrowser]
+    directives: [Chessboard, MovesBrowser, BarChartAnalysis]
 })
 @CanActivate((next, prev) => {
     // TODO: Implement when we have DI here to get hold of our authenticationService

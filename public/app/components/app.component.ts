@@ -20,23 +20,29 @@ import {LoggerService, LogLevel} from '../services/logger.service';
 })
 @View({
     template: `
-        <div class="ui grid">
-            <div class="row">
-                <div class="ui inverted fixed menu brown navbar page grid">
-                    <a [routerLink]="['Home']" class="header item" [class.active]="_router.isRouteActive(_router.generate(['Home']))">UCI GUI</a>
-                    <a [routerLink]="['Games']" *ngIf="_currentUser" class="item" [class.active]="_router.isRouteActive(_router.generate(['Games']))">
-                        Games
+        <div class="ui fixed menu brown navbar grid">
+            <div class="ui container">
+                <a [routerLink]="['Home']" class="header item" [class.active]="_router.isRouteActive(_router.generate(['Home']))">
+                    <i class="home icon"></i>UCI GUI
+                </a>
+                <a [routerLink]="['Games']" *ngIf="_currentUser" class="item" [class.active]="_router.isRouteActive(_router.generate(['Games']))">
+                    <i class="bar chart icon"></i>
+                    Games
+                </a>
+                <div class="right menu">
+                    <a [routerLink]="['Login']" class="item" *ngIf="!_currentUser" [class.active]="_router.isRouteActive(_router.generate(['Games']))">
+                        <i class="sign in icon"></i>
+                        Log in
                     </a>
-                    <div class="right menu">
-                        <a [routerLink]="['Login']" class="item" *ngIf="!_currentUser" [class.active]="_router.isRouteActive(_router.generate(['Games']))">
-                            Log in
-                        </a>
-                        <a class="item" *ngIf="_currentUser" (click)="onLogoutClick()">{{_currentUser.email}} (Log out)</a>
-                    </div>
+                    <a class="item" *ngIf="_currentUser" (click)="onLogoutClick()">
+                        <i class="sign out icon"></i>
+                        {{_currentUser.email}}
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="ui page grid main">
+        <div></div><!-- Empty div to keep the fixed menu away from the master viewport. Otherwise the document body gets displaced for some odd reason -->
+        <div class="ui doubling stackable grid container master-viewport">
             <div class="row">
                 <div class="column">
                     <router-outlet></router-outlet>
@@ -47,8 +53,8 @@ import {LoggerService, LogLevel} from '../services/logger.service';
     directives: [ROUTER_DIRECTIVES],
     styles: [
         `
-            .ui.grid.main{
-                margin-top: 70px;
+            .ui.grid.master-viewport{
+                padding-top: 70px;
             }
         `
     ]

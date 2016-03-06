@@ -7,7 +7,7 @@ import 'oakmac/chessboardjs';
 })
 @View({
     template: `
-        <div id="{{_unique_id}}" style="width: 400px"></div>
+        <div id="{{_unique_id}}" style="width: 550px"></div>
     `
 })
 export class Chessboard implements AfterViewInit, OnDestroy {
@@ -40,7 +40,7 @@ export class Chessboard implements AfterViewInit, OnDestroy {
     }
     
     ngOnDestroy() {
-        this._logger.debug('Destroying the chessboard.');
+        this._logger.debug('Destroying chessboard #' + this._unique_id);
         this._board.destroy();
         this._board = null;
     }

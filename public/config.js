@@ -33,6 +33,7 @@ System.config({
     "clean-css": "npm:clean-css@3.4.10",
     "es6-shim": "github:es-shims/es6-shim@0.34.4",
     "oakmac/chessboardjs": "github:oakmac/chessboardjs@master",
+    "plotly/plotly.js": "github:plotly/plotly.js@1.6.2",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "rxjs": "npm:rxjs@5.0.0-beta.2",
     "semantic-ui": "github:Semantic-Org/Semantic-UI@2.1.8",
