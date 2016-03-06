@@ -25,17 +25,25 @@ This project is created as part of the Software Technologies course at Plovdiv U
 Also check the [UCI Protocol Specification](http://download.shredderchess.com/div/uci.zip)
 
 ### Installation: ###
-Prerequisites:
+##### Prerequisites (yeah, we are not using docker yet): #####
 - Node JS installed
 - Mongo DB installed
+
+##### Setup: #####
 ```
 npm install
 node_modules/.bin/jspm install
 ```
-### Configure UCI engine: ###
+
+##### Configuration: #####
 Copy `config/engine.js.sample` to `config/engine.js` and specify the **full** path to your UCI engine executable of choice.
 
-### Run: ###
+##### Start in development mode: #####
 ```
 npm start
+```
+
+##### Start in production mode: #####
+```
+npm run production
 ```

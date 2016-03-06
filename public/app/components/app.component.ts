@@ -12,7 +12,7 @@ import {User} from '../models/user';
 
 import {AuthenticationService} from '../services/authentication.service';
 import {NotificationService} from '../services/notification.service';
-import {LoggerService} from '../services/logger.service';
+import {LoggerService, LogLevel} from '../services/logger.service';
 
 @Component({
     selector: 'main-app',
@@ -65,8 +65,13 @@ export class App implements OnDestroy {
 
     constructor(
         private _authenticationService: AuthenticationService,
-        private _router: Router
+        private _router: Router,
+        private _logger: LoggerService
     ) {
+        if( (<any>window).isProductionEnvironment ) {
+            this._logger.setLevel(LogLevel.error);
+        }
+
         this._subscriptionsToDispose.push(
             _authenticationService.currentUser.subscribe(user => {
                 this._currentUser = user;

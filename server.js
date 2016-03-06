@@ -1,3 +1,5 @@
+var isProduction = (process.argv.indexOf('--production') !== -1);
+
 var express = require('express');
 var app = express();
 
@@ -35,13 +37,20 @@ app.use(passport.session());
 var initPassport = require('./passport/init');
 initPassport(passport);
 
+// Set rendering engine
+app.set('view engine', 'ejs');
+
 // Routes configuration
 app.use('/api', require('./api')(passport));
 
 app.use('/public', express.static(__dirname + '/public'));
+// TODO: investigate what is wrong with JSPM's base URL.
+// SystemJS seems to be looking for resources in /jspm_packages instead of
+// /public/jspm_packages when bundled:
+app.use('/jspm_packages', express.static(__dirname + '/public/jspm_packages'));
 
 app.get('*', function(req,res) {
-    res.sendFile(__dirname + '/public/index.html');
+    res.render(__dirname + '/public/index.ejs', { production: isProduction });
 });
 
 // Start the server

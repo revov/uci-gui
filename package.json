@@ -17,19 +17,25 @@
   "bugs": {
     "url": "https://github.com/revov/uci-gui/issues"
   },
+  "scripts": {
+    "preproduction": "jspm bundle --skip-source-maps app public/app.js && uglifyjs --compress --screw-ie8 --output 'public/app.min.js' public/app.js",
+    "production": "node server.js --production"
+  },
   "homepage": "https://github.com/revov/uci-gui#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "chess.js": "0.9.3",
     "connect-mongo": "^1.1.0",
+    "ejs": "^2.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "jspm": "^0.16.27",
     "mongoose": "^4.4.4",
     "passport": "^0.3.2",
     "passport-local": "1.0.0",
-    "uci": "git://github.com/imor/uci.git#6f0c0525216503c9633c369dfa6a348bd42ab7be"
+    "uci": "git://github.com/imor/uci.git#6f0c0525216503c9633c369dfa6a348bd42ab7be",
+    "uglify-js": "^2.6.2"
   },
   "devDependencies": {
     "angular2": "^2.0.0-beta.6",

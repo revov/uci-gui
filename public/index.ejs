@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>UCI GUI</title>
@@ -9,6 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     
+    <script>
+        window.isProductionEnvironment = <%= production%>;
+    </script>
+
     <!-- systemJS loader and config -->
     <script src="public/jspm_packages/system.js"></script>
     <script src="public/config.js"></script>
@@ -33,6 +38,9 @@
     </main-app>
 
     <!-- import and run our app -->
+    <%if (production) { %>
+        <script src="public/app.min.js"></script>
+    <% } %>
     <script>
         System.import("app");
     </script>

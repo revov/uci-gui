@@ -1,6 +1,12 @@
 node_modules
 npm-debug.log
 public/jspm_packages
+
+public/app.js
+public/app.js.map
+public/app.min.js
+public/app.min.js.map
+
 config/engine.js
 /nbproject
 /typings

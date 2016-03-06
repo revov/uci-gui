@@ -10,7 +10,9 @@ import { App } from './components/app.component';
 
 import { enableProdMode } from 'angular2/core';
 
-//enableProdMode();
+if( (<any>window).isProductionEnvironment ) {
+    enableProdMode();
+}
 
 //start our app
 bootstrap(App, [ROUTER_PROVIDERS, HTTP_PROVIDERS]);
