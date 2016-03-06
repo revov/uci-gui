@@ -5,7 +5,10 @@ export class Game {
         moves: [
                 {
                     bestMove: string,
-                    score: string
+                    score: {
+                        cp: string,
+                        mate: string
+                    }
                 }
         ],
         status: string,
