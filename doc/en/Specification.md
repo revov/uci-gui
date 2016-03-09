@@ -56,7 +56,7 @@ Latest version of Chrome and Firefox.
 ##### Back-end #####
 - [Node JS](https://nodejs.org) fits perfectly as a server for UCI GUI. It is the only technology that integrates seamlessly with all other necessary tools/libraries for the project so it is the logical choice.
 - [Express](http://expressjs.com/) - The most stable and mature http server framework for Node JS with rich set of 3rd party plugins and middlewares.
-- [Mongo db](https://www.mongodb.org/)- The perfect candidate for storing the chess games and their analysis in a document format with complex structure. UCI GUI does not have complex relations between its entities so Mongo is preferred over traditional relational databases.
+- [Mongo DB](https://www.mongodb.org/) - The perfect candidate for storing the chess games and their analysis in a document format with complex structure. UCI GUI does not have complex relations between its entities so Mongo is preferred over traditional relational databases.
 - [Mongoose ODM](http://mongoosejs.com/) - An Object Document Mapper for Mongo that helps in writing MongoDB validation, casting and business logic boilerplate. Mongoose provides a straight-forward, schema-based solution to model our application data.
 - [Passport JS](http://passportjs.org/) is a simple, unobtrusive authentication middleware for Node.js that provides 300+ authentication strategies.
 - [Socket IO](http://socket.io/) - A websocket wrapper that makes two-way communication between the client and the server easy and predictable.
