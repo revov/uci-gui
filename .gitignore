@@ -7,7 +7,7 @@ public/app.js.map
 public/app.min.js
 public/app.min.js.map
 
-config/engine.js
+server/config/engine.js
 /nbproject
 /typings
 .vscode

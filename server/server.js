@@ -46,14 +46,14 @@ app.set('view engine', 'ejs');
 // Routes configuration
 app.use('/api', require('./api')(passport, socketIO));
 
-app.use('/public', express.static(__dirname + '/public'));
+app.use('/public', express.static(__dirname + '/../public'));
 // TODO: investigate what is wrong with JSPM's base URL.
 // SystemJS seems to be looking for resources in /jspm_packages instead of
 // /public/jspm_packages when bundled:
-app.use('/jspm_packages', express.static(__dirname + '/public/jspm_packages'));
+app.use('/jspm_packages', express.static(__dirname + '/../public/jspm_packages'));
 
 app.get('*', function(req,res) {
-    res.render(__dirname + '/public/index.ejs', { production: isProduction });
+    res.render(__dirname + '/../public/index.ejs', { production: isProduction });
 });
 
 // Start the server

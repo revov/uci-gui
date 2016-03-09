@@ -19,7 +19,8 @@
   },
   "scripts": {
     "preproduction": "jspm bundle --skip-source-maps app public/app.js && uglifyjs --compress --screw-ie8 --output 'public/app.min.js' public/app.js",
-    "production": "node server.js --production"
+    "production": "node server/server.js --production",
+    "start": "node server/server.js"
   },
   "homepage": "https://github.com/revov/uci-gui#readme",
   "dependencies": {
