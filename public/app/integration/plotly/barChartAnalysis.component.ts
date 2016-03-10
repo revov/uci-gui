@@ -7,7 +7,7 @@ import Plotly from 'plotly/plotly.js/dist/plotly';
 })
 @View({
     template: `
-        <div id="{{_unique_id}}" class="item" style="width:600px;height:500px;"></div>
+        <div id="{{_unique_id}}" class="item"></div>
     `
 })
 export class BarChartAnalysis implements AfterViewInit, OnDestroy {
@@ -46,6 +46,9 @@ export class BarChartAnalysis implements AfterViewInit, OnDestroy {
         yaxis: {
             title: 'Pawn advantage'
         },
+        autosize: false,
+        width: 450,
+        height: 300,
         bargap: 0.15,
         bargroupgap: 0.1
     };

@@ -18,7 +18,7 @@ node_modules/.bin/jspm install
 ```
 
 ##### Configuration: #####
-Copy `config/engine.js.sample` to `config/engine.js` and specify the **full** path to your UCI engine executable of choice.
+Copy `config/engine.js.sample` to `config/engine.js` and specify the **full** path to your UCI engine executable of choice. Make sure the engine binary has appropriate execute permissions.
 
 ##### Run in development mode: #####
 ```
