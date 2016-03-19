@@ -7,7 +7,7 @@ import 'oakmac/chessboardjs';
 })
 @View({
     template: `
-        <div id="{{_unique_id}}" style="width: 300px"></div>
+        <div id="{{_unique_id}}" style="width: 500px"></div>
     `
 })
 export class Chessboard implements AfterViewInit, OnDestroy {

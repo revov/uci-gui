@@ -1,37 +1,73 @@
 import { Component, View, Input, Output, EventEmitter } from 'angular2/core';
+import {FocusableSegmentDirective} from '../../integration/semantic/focusableSegment.directive';
 
 @Component({
     selector: 'moves-browser'
 })
 @View({
     template: `
-        <div class="ui horizontal list">
-            <div *ngFor="#move of _getColumnsCountAsIterable(); #column = index" class="item">
-                <table class="ui small striped celled collapsing compact definition table">
-                    <tbody>
-                        <tr *ngFor="#move of _getRangeOfMoves(column); #i=index">
-                            <td>{{(column * 10 + i)+1}}</td>
-                            <td class="selectable" [class.active]="_selectedMoveIndex == (2 * (column * 10 + i))" (click)="onMoveClicked(2 * (column * 10 + i))">
-                                <a>{{move.white}}</a>
-                            </td>
-                            <td [class.selectable]="move.black" [class.active]="_selectedMoveIndex == (2 * (column * 10 + i) + 1)" (click)="onMoveClicked(2 * (column * 10 + i) + 1)">
-                                <a>{{move?.black}}</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div focusableSegment class="ui segment" (keydown)="onKeyPressed($event.keyCode)">
+            <div class="ui horizontal list">
+                <div *ngFor="#move of _moves; #i=index" class="item">
+                    <span class="move-number">{{i+1}}.</span>
+                    <span class="white move" [class.active]="_selectedMoveIndex == (2 * i)" (click)="makeMove(2 * i)">
+                        {{move.white}}
+                    </span>
+                    <span *ngIf="move?.black" class="black move" [class.active]="_selectedMoveIndex == (2 * i + 1)" (click)="makeMove(2 * i + 1)">
+                        {{move?.black}}
+                    </span>
+                </div>
             </div>
         </div>
     `,
+    directives: [FocusableSegmentDirective],
     styles: [`
-        tbody td.selectable {
-            cursor: pointer; cursor: hand;
+        span.move-number {
+            font-weight: bold;
         }
 
-        .ui.horizontal.list>.item {
-            vertical-align: top;
-            margin-left: 0em !important;
-            margin-right: 1em !important;
+        .move {
+            cursor: pointer;
+            background: transparent;
+            padding: 0.5em 0.5em;
+            margin: 0em;
+            border-radius: 0.5em;
+        }
+
+        .move:hover {
+            background: rgba(0, 0, 0, 0.03);
+            color: rgba(0, 0, 0, 0.8);\n\
+            font-weight: bold;
+        }
+
+        .move.active {
+            font-weight: bold;
+        }
+
+        .white.move.active {
+            background: #f0d9b5;
+        }
+
+        .black.move.active {
+            background: #b58863;
+            color: white;
+        }
+
+        .ui.segment {
+            height: 100%;
+            overflow: auto;
+
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none;   /* Chrome/Safari/Opera */
+            -khtml-user-select: none;    /* Konqueror */
+            -moz-user-select: none;      /* Firefox */
+            -ms-user-select: none;       /* IE/Edge */
+            user-select: none;           /* non-prefixed version, currently not supported by any browser */
+        }
+
+        .ui.horizontal.list > .item {
+            margin-left: 0.5em !important;
+            line-height: 1.67em;
         }
     `]
 })
@@ -56,22 +92,24 @@ export class MovesBrowser {
 
     @Output() moveSelected = new EventEmitter<number>();
     
-    onMoveClicked(index: number) {
-        if (index >= this.halfMoves.length) {
-            // This case happens when the last move in the game is white's and
-            // the user clicked on the empty field for the black's move
+    makeMove(index: number) {
+        if (index >= this.halfMoves.length || index < -1) {
             return;
         }
 
         this.moveSelected.emit(index);
         this._selectedMoveIndex = index;
     }
-    
-    private _getColumnsCountAsIterable(): any[] {
-        return new Array(Math.ceil(this._moves.length / 10));
-    }
-    
-    private _getRangeOfMoves(columnIndex: number): {white: string, black: string}[] {
-        return this._moves.slice(columnIndex * 10, (columnIndex + 1) * 10);
+
+    onKeyPressed(keyCode: number) {
+        if(keyCode == 37 /* left */ || keyCode == 38 /* up */) {
+            this.makeMove(this._selectedMoveIndex - 1);
+            return;
+        }
+        
+        if(keyCode == 39 /* right */ || keyCode == 40 /* down */ || keyCode == 32 /* space */) {
+            this.makeMove(this._selectedMoveIndex + 1);
+            return;
+        }
     }
 }

@@ -47,8 +47,8 @@ export class BarChartAnalysis implements AfterViewInit, OnDestroy {
             title: 'Pawn advantage'
         },
         autosize: false,
-        width: 450,
-        height: 300,
+        width: 1000,
+        height: 450,
         bargap: 0.15,
         bargroupgap: 0.1
     };

@@ -15,9 +15,9 @@ import {BarChartAnalysis} from '../../integration/plotly/barChartAnalysis.compon
         <div>
             <div class="ui two column grid">
                 <chessboard [fen]="_currentPositionIndex < 0 ? 'start' : _fenCache[_currentPositionIndex]" class="column"></chessboard>
-                <barchartAnalysis [moves]="_game?.analysis?.moves" [white]="_game?.white" [black]="_game?.black" [result]="_game?.result" class="column"></barchartAnalysis>
+                <moves-browser [halfMoves]="_shortHistoryCache" (moveSelected)="_currentPositionIndex = $event" class="column" style="height=500px"></moves-browser>
             </div>
-            <moves-browser [halfMoves]="_shortHistoryCache" (moveSelected)="_currentPositionIndex = $event"></moves-browser>
+            <barchartAnalysis [moves]="_game?.analysis?.moves" [white]="_game?.white" [black]="_game?.black" [result]="_game?.result"></barchartAnalysis>
         </div>
     `,
     directives: [Chessboard, MovesBrowser, BarChartAnalysis]
