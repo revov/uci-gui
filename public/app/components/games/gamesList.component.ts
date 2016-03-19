@@ -45,7 +45,7 @@ import {Game} from '../../models/game';
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.analysis.progress}}%</td>
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.analysis.status}}</td>
                         <td>
-                            <button class="ui icon button" (click)="onDelete(game._id, index)">
+                            <button class="ui icon button" (click)="onDelete(game._id, i)">
                                 <i class="red outline trash icon"></i>
                             </button>
                         </td>
