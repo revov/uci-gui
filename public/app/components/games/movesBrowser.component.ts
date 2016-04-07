@@ -1,10 +1,8 @@
-import { Component, View, Input, Output, EventEmitter } from 'angular2/core';
+import { Component, Input, Output, EventEmitter } from 'angular2/core';
 import {FocusableSegmentDirective} from '../../integration/semantic/focusableSegment.directive';
 
 @Component({
-    selector: 'moves-browser'
-})
-@View({
+    selector: 'moves-browser',
     template: `
         <div focusableSegment class="ui segment" (keydown)="onKeyPressed($event.keyCode)">
             <div class="ui horizontal list">

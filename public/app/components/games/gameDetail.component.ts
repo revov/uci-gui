@@ -1,4 +1,4 @@
-import { Component, View } from 'angular2/core';
+import { Component } from 'angular2/core';
 import {CanActivate, RouteParams} from 'angular2/router';
 import {Chess} from 'chess.js/chess';
 
@@ -9,8 +9,7 @@ import {Game} from '../../models/game';
 import {MovesBrowser} from './movesBrowser.component';
 import {BarChartAnalysis} from '../../integration/plotly/barChartAnalysis.component';
 
-@Component({})
-@View({
+@Component({
     template: `
         <div>
             <div class="ui two column grid">
@@ -75,13 +74,5 @@ export class GameDetail {
             gameReplay.move(this._shortHistoryCache[i]);
             this._fenCache.push(gameReplay.fen());
         }
-    }
-    
-    private getFenForCurrentPosition(): string {
-        if(this._currentPositionIndex < 0) {
-            return 'start';
-        }
-
-        return this._fenCache[this._currentPositionIndex];
     }
 }

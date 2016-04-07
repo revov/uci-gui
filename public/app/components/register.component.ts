@@ -1,4 +1,4 @@
-import { Component, View } from 'angular2/core';
+import { Component } from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {
 	FormBuilder,
@@ -12,8 +12,7 @@ import {LoggerService} from '../services/logger.service';
 import {Email} from '../validators/email';
 import {Identical} from '../validators/factories/identical';
 
-@Component({})
-@View({
+@Component({
     template: `
         <div class="ui one column center aligned grid">
             <div class="column six wide">

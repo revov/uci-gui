@@ -1,12 +1,10 @@
-import {Component, View, Output, EventEmitter} from 'angular2/core';
+import {Component, Output, EventEmitter} from 'angular2/core';
 import {LoggerService} from '../../services/logger.service';
 import {ModalDirective} from '../../integration/semantic/modal.directive';
 import {ModalControl} from '../../integration/semantic/controls/modalControl';
 
 @Component({
-    selector: 'import-pgn'
-})
-@View({
+    selector: 'import-pgn',
     template: `
         <div>
             <button class="ui button" (click)="onClick()">

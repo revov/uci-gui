@@ -1,11 +1,9 @@
-import { Component, View, Input, AfterViewInit, OnDestroy, NgZone } from 'angular2/core';
+import { Component, Input, AfterViewInit, OnDestroy, NgZone } from 'angular2/core';
 import {LoggerService} from '../../services/logger.service';
 import 'oakmac/chessboardjs';
 
 @Component({
-    selector: 'chessboard'
-})
-@View({
+    selector: 'chessboard',
     template: `
         <div id="{{_unique_id}}" style="width: 500px"></div>
     `

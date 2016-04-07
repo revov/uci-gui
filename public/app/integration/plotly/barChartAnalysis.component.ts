@@ -1,11 +1,9 @@
-import { Component, View, Input, AfterViewInit, OnDestroy, OnChanges, SimpleChange, NgZone } from 'angular2/core';
+import { Component, Input, AfterViewInit, OnDestroy, OnChanges, SimpleChange, NgZone } from 'angular2/core';
 import {LoggerService} from '../../services/logger.service';
 import Plotly from 'plotly/plotly.js/dist/plotly';
 
 @Component({
-    selector: 'barchartAnalysis'
-})
-@View({
+    selector: 'barchartAnalysis',
     template: `
         <div id="{{_unique_id}}" class="item"></div>
     `

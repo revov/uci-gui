@@ -1,4 +1,4 @@
-import { Component, View } from 'angular2/core';
+import { Component } from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router, CanActivate} from 'angular2/router';
 
 import {ImportPgn} from '../buttons/importPgn.component';
@@ -9,9 +9,7 @@ import {GamesService} from '../../services/api/games.service';
 import {Game} from '../../models/game';
 
 @Component({
-    providers: [ImportService]
-})
-@View({
+    providers: [ImportService],
     template: `
         <div>
             <div class="ui icon buttons">

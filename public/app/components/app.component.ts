@@ -1,4 +1,4 @@
-import { Component, View, OnDestroy  } from 'angular2/core';
+import { Component, OnDestroy  } from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Subscription}   from 'rxjs/Subscription';
 import 'semantic-ui';
@@ -16,9 +16,7 @@ import {LoggerService, LogLevel} from '../services/logger.service';
 
 @Component({
     selector: 'main-app',
-    providers: [AuthenticationService, LoggerService, NotificationService]
-})
-@View({
+    providers: [AuthenticationService, LoggerService, NotificationService],
     template: `
         <div class="ui fixed menu brown navbar grid">
             <div class="ui container">

@@ -1,10 +1,8 @@
-import { Component, View } from 'angular2/core';
+import { Component } from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
-    selector: 'login-page'
-})
-@View({
+    selector: 'login-page',
     template: `
         <div class="ui large message">
             <h1 class="ui huge header">Web Platform for Chess Analysis</h1>
@@ -15,7 +13,7 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
             <a [routerLink]="['Login']" class="ui brown button">Login »</a>
         </div>
     `,
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES]
 })
 export class Home {
     constructor() {
