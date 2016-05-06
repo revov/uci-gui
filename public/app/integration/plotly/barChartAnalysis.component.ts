@@ -60,12 +60,7 @@ export class BarChartAnalysis implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit () {
         this._zone.runOutsideAngular(() => {
-            this._plotlyChartPromise = Plotly.newPlot(
-                document.getElementById(this._unique_id),
-                [this._whiteMovesTrace, this._blackMovesTrace],
-                this._layout,
-                this._configuration
-            );
+            
         });
     }
 
@@ -107,15 +102,15 @@ export class BarChartAnalysis implements AfterViewInit, OnDestroy {
         }
 
         this._zone.runOutsideAngular(() => {
-            Plotly.redraw(this._unique_id);
+            
         });
     }
     
     ngOnDestroy() {
-        this._logger.debug('Destroying plotly chart #' + this._unique_id);
-        this._plotlyChartPromise.then(
-            () => Plotly.d3.select('#' + this._unique_id).remove()
-        );
-        this._plotlyChartPromise = null;
+        this._zone.runOutsideAngular(() => {
+            this._logger.debug('Destroying plotly chart #' + this._unique_id);
+            
+            this._plotlyChartPromise = null;
+        });
     }
 }

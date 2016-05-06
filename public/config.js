@@ -39,6 +39,7 @@ System.config({
     "chess.js": "npm:chess.js@0.9.4",
     "clean-css": "npm:clean-css@3.4.12",
     "es6-shim": "npm:es6-shim@0.35.0",
+    "ng2-charts": "npm:ng2-charts@1.0.3",
     "oakmac/chessboardjs": "github:oakmac/chessboardjs@master",
     "plotly/plotly.js": "github:plotly/plotly.js@1.10.2",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
@@ -46,7 +47,7 @@ System.config({
     "semantic-ui": "github:Semantic-Org/Semantic-UI@2.1.8",
     "toastr": "github:CodeSeven/toastr@2.1.2",
     "ts": "github:frankwallis/plugin-typescript@3.0.3",
-    "zone.js": "npm:zone.js@0.6.0",
+    "zone.js": "npm:zone.js@0.6.12",
     "github:CodeSeven/toastr@2.1.2": {
       "css": "github:systemjs/plugin-css@0.1.21",
       "jquery": "github:components/jquery@2.2.1"
@@ -146,6 +147,11 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:angular2@2.0.0-beta.15": {
+      "reflect-metadata": "npm:reflect-metadata@0.1.2",
+      "rxjs": "npm:rxjs@5.0.0-beta.6",
+      "zone.js": "npm:zone.js@0.6.12"
+    },
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
@@ -156,6 +162,11 @@ System.config({
       "ieee754": "npm:ieee754@1.1.6",
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:chart.js@1.0.2": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:clean-css@3.4.12": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -181,9 +192,6 @@ System.config({
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
-    "npm:es6-promise@3.1.2": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:es6-shim@0.35.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -195,6 +203,10 @@ System.config({
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:ng2-charts@1.0.3": {
+      "angular2": "npm:angular2@2.0.0-beta.15",
+      "chart.js": "npm:chart.js@1.0.2"
     },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
@@ -217,6 +229,10 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
+    },
+    "npm:reflect-metadata@0.1.2": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:rxjs@5.0.0-beta.6": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -242,10 +258,6 @@ System.config({
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:zone.js@0.6.0": {
-      "es6-promise": "npm:es6-promise@3.1.2",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:zone.js@0.6.12": {
