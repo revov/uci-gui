@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import {CanActivate, RouteParams} from 'angular2/router';
+import { Component } from '@angular/core';
+import {CanActivate, RouteParams} from '@angular/router-deprecated';
 import {Chess} from 'chess.js/chess';
 
 import {LoggerService} from '../../services/logger.service';

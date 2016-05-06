@@ -28,24 +28,31 @@ System.config({
   },
 
   map: {
-    "angular2": "npm:angular2@2.0.0-beta.14",
+    "@angular/common": "npm:@angular/common@2.0.0-rc.1",
+    "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.1",
+    "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+    "@angular/http": "npm:@angular/http@2.0.0-rc.1",
+    "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1",
+    "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.1",
+    "@angular/router": "npm:@angular/router@2.0.0-rc.1",
+    "@angular/router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
     "chess.js": "npm:chess.js@0.9.4",
-    "clean-css": "npm:clean-css@3.4.11",
-    "es6-shim": "github:es-shims/es6-shim@0.34.4",
+    "clean-css": "npm:clean-css@3.4.12",
+    "es6-shim": "npm:es6-shim@0.35.0",
     "oakmac/chessboardjs": "github:oakmac/chessboardjs@master",
-    "plotly/plotly.js": "github:plotly/plotly.js@1.8.0",
-    "reflect-metadata": "npm:reflect-metadata@0.1.2",
-    "rxjs": "npm:rxjs@5.0.0-beta.5",
+    "plotly/plotly.js": "github:plotly/plotly.js@1.10.2",
+    "reflect-metadata": "npm:reflect-metadata@0.1.3",
+    "rxjs": "npm:rxjs@5.0.0-beta.6",
     "semantic-ui": "github:Semantic-Org/Semantic-UI@2.1.8",
     "toastr": "github:CodeSeven/toastr@2.1.2",
     "ts": "github:frankwallis/plugin-typescript@3.0.3",
-    "zone.js": "npm:zone.js@0.6.6",
+    "zone.js": "npm:zone.js@0.6.0",
     "github:CodeSeven/toastr@2.1.2": {
-      "css": "github:systemjs/plugin-css@0.1.20",
+      "css": "github:systemjs/plugin-css@0.1.21",
       "jquery": "github:components/jquery@2.2.1"
     },
     "github:Semantic-Org/Semantic-UI@2.1.8": {
-      "css": "github:systemjs/plugin-css@0.1.20",
+      "css": "github:systemjs/plugin-css@0.1.21",
       "jquery": "github:components/jquery@2.2.1"
     },
     "github:frankwallis/plugin-typescript@3.0.3": {
@@ -90,19 +97,54 @@ System.config({
       "util": "npm:util@0.10.3"
     },
     "github:oakmac/chessboardjs@master": {
-      "css": "github:systemjs/plugin-css@0.1.20",
+      "css": "github:systemjs/plugin-css@0.1.21",
       "jquery": "npm:jquery@2.2.3"
+    },
+    "npm:@angular/common@2.0.0-rc.1": {
+      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:@angular/compiler@2.0.0-rc.1": {
+      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:@angular/core@2.0.0-rc.1": {
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "rxjs": "npm:rxjs@5.0.0-beta.6",
+      "zone.js": "npm:zone.js@0.6.12"
+    },
+    "npm:@angular/http@2.0.0-rc.1": {
+      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+      "rxjs": "npm:rxjs@5.0.0-beta.6"
+    },
+    "npm:@angular/platform-browser-dynamic@2.0.0-rc.1": {
+      "@angular/common": "npm:@angular/common@2.0.0-rc.1",
+      "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.1",
+      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:@angular/platform-browser@2.0.0-rc.1": {
+      "@angular/common": "npm:@angular/common@2.0.0-rc.1",
+      "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.1",
+      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:@angular/router-deprecated@2.0.0-rc.1": {
+      "@angular/common": "npm:@angular/common@2.0.0-rc.1",
+      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1"
+    },
+    "npm:@angular/router@2.0.0-rc.1": {
+      "@angular/common": "npm:@angular/common@2.0.0-rc.1",
+      "@angular/core": "npm:@angular/core@2.0.0-rc.1",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1"
     },
     "npm:amdefine@1.0.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "module": "github:jspm/nodelibs-module@0.1.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:angular2@2.0.0-beta.14": {
-      "reflect-metadata": "npm:reflect-metadata@0.1.2",
-      "rxjs": "npm:rxjs@5.0.0-beta.5",
-      "zone.js": "npm:zone.js@0.6.10"
     },
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
@@ -115,7 +157,7 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:clean-css@3.4.11": {
+    "npm:clean-css@3.4.12": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "commander": "npm:commander@2.8.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -139,6 +181,12 @@ System.config({
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
+    "npm:es6-promise@3.1.2": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:es6-shim@0.35.0": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:graceful-readlink@1.0.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2"
     },
@@ -160,7 +208,7 @@ System.config({
     "npm:punycode@1.3.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:readable-stream@1.1.13": {
+    "npm:readable-stream@1.1.14": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "core-util-is": "npm:core-util-is@1.0.2",
       "events": "github:jspm/nodelibs-events@0.1.1",
@@ -170,11 +218,7 @@ System.config({
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
     },
-    "npm:reflect-metadata@0.1.2": {
-      "assert": "github:jspm/nodelibs-assert@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:rxjs@5.0.0-beta.5": {
+    "npm:rxjs@5.0.0-beta.6": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -185,7 +229,7 @@ System.config({
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
-      "readable-stream": "npm:readable-stream@1.1.13"
+      "readable-stream": "npm:readable-stream@1.1.14"
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
@@ -200,10 +244,12 @@ System.config({
       "inherits": "npm:inherits@2.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:zone.js@0.6.10": {
+    "npm:zone.js@0.6.0": {
+      "es6-promise": "npm:es6-promise@3.1.2",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:zone.js@0.6.6": {
+    "npm:zone.js@0.6.12": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     }
   }

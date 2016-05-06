@@ -1,5 +1,5 @@
-import { Component, OnDestroy  } from 'angular2/core';
-import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import { Component, OnDestroy  } from '@angular/core';
+import {RouteConfig, Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {Subscription}   from 'rxjs/Subscription';
 import 'semantic-ui';
 
@@ -28,7 +28,7 @@ import {LoggerService, LogLevel} from '../services/logger.service';
                     Games
                 </a>
                 <div class="right menu">
-                    <a [routerLink]="['Login']" class="item" *ngIf="!_currentUser" [class.active]="_router.isRouteActive(_router.generate(['Games']))">
+                    <a [routerLink]="['Login']" class="item" *ngIf="!_currentUser" [class.active]="_router.isRouteActive(_router.generate(['Login']))">
                         <i class="sign in icon"></i>
                         Log in
                     </a>

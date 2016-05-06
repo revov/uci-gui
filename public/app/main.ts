@@ -1,14 +1,13 @@
-import 'zone.js/dist/zone.min.js';
-import 'reflect-metadata';
-//import 'es6-shim'; // For IE compatibility
+import "zone.js";
+//import 'reflect-metadata';
 
-import {ROUTER_PROVIDERS} from 'angular2/router';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
+import {HTTP_PROVIDERS} from '@angular/http';
 
-import { bootstrap } from 'angular2/platform/browser';
+import { bootstrap } from '@angular/platform-browser-dynamic';
 import { App } from './components/app.component';
 
-import { enableProdMode } from 'angular2/core';
+import { enableProdMode } from '@angular/core';
 
 if( (<any>window).isProductionEnvironment ) {
     enableProdMode();

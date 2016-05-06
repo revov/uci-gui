@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import {ROUTER_DIRECTIVES, Router, CanActivate} from 'angular2/router';
+import { Component } from '@angular/core';
+import {ROUTER_DIRECTIVES, Router, CanActivate} from '@angular/router-deprecated';
 
 import {ImportPgn} from '../buttons/importPgn.component';
 import {LoggerService} from '../../services/logger.service';
@@ -36,7 +36,7 @@ import {Game} from '../../models/game';
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="#game of _games; #i = index">
+                    <tr *ngFor="let game of _games; let i = index">
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.white}}</td>
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.black}}</td>
                         <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.result}}</td>

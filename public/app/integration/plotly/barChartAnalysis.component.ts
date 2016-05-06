@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, OnDestroy, OnChanges, SimpleChange, NgZone } from 'angular2/core';
+import { Component, Input, AfterViewInit, OnDestroy, OnChanges, SimpleChange, NgZone } from '@angular/core';
 import {LoggerService} from '../../services/logger.service';
 import Plotly from 'plotly/plotly.js/dist/plotly';
 

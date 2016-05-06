@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, OnInit, OnDestroy} from 'angular2/core';
+import {Directive, ElementRef, Input, OnInit, OnDestroy} from '@angular/core';
 import {ModalControl} from './controls/modalControl';
 import {Subscription}   from 'rxjs/Subscription';
 import 'semantic-ui';

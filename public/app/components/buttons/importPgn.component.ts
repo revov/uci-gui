@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter} from 'angular2/core';
+import {Component, Output, EventEmitter} from '@angular/core';
 import {LoggerService} from '../../services/logger.service';
 import {ModalDirective} from '../../integration/semantic/modal.directive';
 import {ModalControl} from '../../integration/semantic/controls/modalControl';

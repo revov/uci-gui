@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig, CanActivate} from 'angular2/router';
+import { Component } from '@angular/core';
+import {ROUTER_DIRECTIVES, RouteConfig, CanActivate} from '@angular/router-deprecated';
 
 import {GamesService} from '../../services/api/games.service';
 import {GamesList} from './gamesList.component';

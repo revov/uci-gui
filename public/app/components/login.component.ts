@@ -1,12 +1,12 @@
-import { Component } from 'angular2/core';
-import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import { Component } from '@angular/core';
+import {ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
 import {
 	FormBuilder,
 	Validators,
 	Control,
 	ControlGroup,
 	FORM_DIRECTIVES
-} from 'angular2/common';
+} from '@angular/common';
 import {AuthenticationService} from '../services/authentication.service';
 import {LoggerService} from '../services/logger.service';
 import {Email} from '../validators/email';

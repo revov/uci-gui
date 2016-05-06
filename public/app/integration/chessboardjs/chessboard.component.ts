@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, OnDestroy, NgZone } from 'angular2/core';
+import { Component, Input, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import {LoggerService} from '../../services/logger.service';
 import 'oakmac/chessboardjs';
 

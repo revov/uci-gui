@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from 'angular2/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {FocusableSegmentDirective} from '../../integration/semantic/focusableSegment.directive';
 
 @Component({
@@ -6,7 +6,7 @@ import {FocusableSegmentDirective} from '../../integration/semantic/focusableSeg
     template: `
         <div focusableSegment class="ui segment" (keydown)="onKeyPressed($event.keyCode)">
             <div class="ui horizontal list">
-                <div *ngFor="#move of _moves; #i=index" class="item">
+                <div *ngFor="let move of _moves; let i=index" class="item">
                     <span class="move-number">{{i+1}}.</span>
                     <span class="white move" [class.active]="_selectedMoveIndex == (2 * i)" (click)="makeMove(2 * i)">
                         {{move.white}}
