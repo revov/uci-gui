@@ -7,7 +7,7 @@ import {Chessboard} from '../../integration/chessboardjs/chessboard.component';
 import {GamesService} from '../../services/api/games.service';
 import {Game} from '../../models/game';
 import {MovesBrowser} from './movesBrowser.component';
-import {BarChartAnalysis} from '../../integration/plotly/barChartAnalysis.component';
+import {BarChartAnalysis} from '../../integration/chartjs/barChartAnalysis.component';
 
 @Component({
     template: `

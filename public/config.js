@@ -36,6 +36,7 @@ System.config({
     "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.1",
     "@angular/router": "npm:@angular/router@2.0.0-rc.1",
     "@angular/router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
+    "chart.js": "npm:chart.js@2.1.0",
     "chess.js": "npm:chess.js@0.9.4",
     "clean-css": "npm:clean-css@3.4.12",
     "es6-shim": "npm:es6-shim@0.35.0",
@@ -155,6 +156,21 @@ System.config({
       "ieee754": "npm:ieee754@1.1.6",
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:chart.js@2.1.0": {
+      "chartjs-color": "npm:chartjs-color@1.0.22",
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "moment": "npm:moment@2.13.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
+    "npm:chartjs-color-string@0.4.0": {
+      "color-name": "npm:color-name@1.1.1"
+    },
+    "npm:chartjs-color@1.0.22": {
+      "chartjs-color-string": "npm:chartjs-color-string@0.4.0",
+      "color-convert": "npm:color-convert@0.5.3"
     },
     "npm:clean-css@3.4.12": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",

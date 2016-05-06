@@ -50,7 +50,7 @@ Latest version of Chrome and Firefox.
 - [Chess js](https://github.com/jhlywa/chess.js) - A great library that provides chess oriented utilities (parsing PGNs and FENs, listing legal moves, etc) available both on the front-end and the back-end.
 - [Chessboard.js](http://chessboardjs.com) - A chessboard visualization library with support for interactivity, theming and animations for smooth user experience.
 - [Semantic UI](http://semantic-ui.com/) - A jQuery based UI framework (Bootstrap alternative) that provides clean and semantic way for categorizing and stylizing UI components.
-- [Plotly js](https://plot.ly/javascript/) - A recently open sourced charting library with rich functionality and promising future. May be a bit overkill for the requirements of this project but it is good to have more options.
+- [Chart JS](http://www.chartjs.org/) - Easy to use charting library. The project initially used PlotlyJS but due to problems with ZoneJS and some other limitations we switched to ChartJS.
 - [Socket IO](http://socket.io/) - A websocket wrapper that makes two-way communication between the client and the server easy and predictable.
 
 ##### Back-end #####
