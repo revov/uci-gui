@@ -4,7 +4,7 @@ var express = require('express'),
     analyzer = require('../services/analyze'),
     Chess = require('chess.js').Chess;
 
-module.exports = function(passport, socketIO) {
+module.exports = function(passport, socketioService) {
     var router = express.Router();
 
     router.post('/',
@@ -35,7 +35,7 @@ module.exports = function(passport, socketIO) {
                                     res.status(400).json(err);
                                 } else {
                                     res.status(201).json(newGame);
-                                    analyzer.analyze(newGame, Game, chess, socketIO);
+                                    analyzer.analyze(newGame, Game, chess, socketioService.socketIO.of('game'));
                                 }
                             });
                 } else {

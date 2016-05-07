@@ -7,6 +7,8 @@ import {NotificationService, NotificationLevel} from '../../services/notificatio
 import {ImportService} from '../../services/api/import.service';
 import {GamesService} from '../../services/api/games.service';
 import {Game} from '../../models/game';
+import {Observable} from 'rxjs/Observable';
+import {GamesCardItem} from './gamesCardItem.component';
 
 @Component({
     providers: [ImportService],
@@ -24,41 +26,18 @@ import {Game} from '../../models/game';
                 <div class="ui loader"></div>
             </div>
 
-            <table class="ui selectable celled table">
-                <thead>
-                    <tr>
-                        <th>White</th>
-                        <th>Black</th>
-                        <th>Result</th>
-                        <th>Progress</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let game of _games; let i = index">
-                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.white}}</td>
-                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.black}}</td>
-                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.result}}</td>
-                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.analysis.progress}}%</td>
-                        <td [routerLink]="['/Games', 'GameDetail', {id: game._id}]">{{game.analysis.status}}</td>
-                        <td>
-                            <button class="ui icon button" (click)="onDelete(game._id, i)">
-                                <i class="red outline trash icon"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="ui cards">
+                <gamesCardItem class="card" *ngFor="let game of _games; let i = index" [game]="game" (delete)="onDelete($event, i)"></gamesCardItem>
+            <div>
 
         </div>
     `,
+    directives: [ImportPgn, ROUTER_DIRECTIVES, GamesCardItem],
     styles: [`
-        tbody td[href] {
-            cursor: pointer; cursor: hand;
+        .ui.icon.buttons {
+            margin-bottom: 2rem;
         }
-    `],
-    directives: [ImportPgn, ROUTER_DIRECTIVES]
+    `]
 })
 @CanActivate((next, prev) => {
     // TODO: Implement when we have DI here to get hold of our authenticationService
@@ -68,7 +47,7 @@ import {Game} from '../../models/game';
     return true;
 })
 export class GamesList {
-    private _games: Game[] = [];
+    private _games: Observable<Game>[] = [];
     private _isLoading : boolean = true;
 
     constructor (

@@ -25,11 +25,10 @@ function convertPGNToLAN(movesArray) {
     return movesToReturn;
 };
 
-function startAnalizing(game, gameModel, chess, socketIO, engine) {
+function startAnalizing(game, gameModel, chess, socketioGameNamespace, engine) {
     // convert the pgn notation to long algebraic notation
     var moves = convertPGNToLAN(chess.history({verbose: true}));
     if(!moves.length) {
-        socketIO.sockets.in(game._id).emit('error', { message: 'Game contains no moves' });
         console.log('Game contains no moves');
         return;
     }
@@ -48,9 +47,10 @@ function startAnalizing(game, gameModel, chess, socketIO, engine) {
                                     { $set: { 'analysis.status': constants.StatusTypes.Analyzing }}
                                 ).exec(function(err, res) {
                                         if(err) {
-                                            socketIO.sockets.in(game._id).emit('error', { message: 'Error setting status' });
+                                            socketioGameNamespace.to(game._id).emit('error', { message: 'Error setting status' });
+                                            socketioGameNamespace.leave(game._id);
                                         } else {
-                                            socketIO.sockets.in(game._id).emit('status', { status: constants.StatusTypes.Analyzing });
+                                            socketioGameNamespace.to(game._id).emit('progress', { status: constants.StatusTypes.Analyzing, progress: 0 });
                                         }
                                     });
                         }).then(function () {
@@ -119,9 +119,10 @@ function startAnalizing(game, gameModel, chess, socketIO, engine) {
                                     }
                                 ).exec(function(err, res) {
                                         if(err) {
-                                            socketIO.sockets.in(game._id).emit('error', { message: 'Error analyzing game' });
+                                            socketioGameNamespace.to(game._id).emit('error', { message: 'Error analyzing game' });
+                                            socketioGameNamespace.leave(game._id);
                                         } else {
-                                            socketIO.sockets.in(game._id).emit('progress', { progress: currentProgress });
+                                            socketioGameNamespace.to(game._id).emit('progress', { status: constants.StatusTypes.Analyzing, progress: currentProgress });
                                         }
                                     });
                     });
@@ -136,9 +137,9 @@ function startAnalizing(game, gameModel, chess, socketIO, engine) {
                             { $set: { 'analysis.status': constants.StatusTypes.Complete }}
                        ).exec(function(err, res) {
                                 if(err) {
-                                    socketIO.sockets.in(game._id).emit('error', { message: 'Error setting status' });
+                                    socketioGameNamespace.to(game._id).emit('error', { message: 'Error setting status' });
                                 } else {
-                                    socketIO.sockets.in(game._id).emit('status', { status: constants.StatusTypes.Complete });
+                                    socketioGameNamespace.to(game._id).emit('progress', { status: constants.StatusTypes.Complete, progress: 100 });
                                 }
                             });
             }).fail(function (error) {
@@ -149,9 +150,9 @@ function startAnalizing(game, gameModel, chess, socketIO, engine) {
 };
 
 module.exports = {
-    analyze: function(game, gameModel, chessJS, socketIO, engine) {
+    analyze: function(game, gameModel, chessJS, socketioGameNamespace, engine) {
         engine = engine || new Engine(engineConfig.enginePath);
 
-        startAnalizing(game, gameModel, chessJS, socketIO, engine);
+        startAnalizing(game, gameModel, chessJS, socketioGameNamespace, engine);
     }
 };

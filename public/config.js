@@ -44,6 +44,7 @@ System.config({
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "rxjs": "npm:rxjs@5.0.0-beta.6",
     "semantic-ui": "github:Semantic-Org/Semantic-UI@2.1.8",
+    "socket.io-client": "github:socketio/socket.io-client@1.4.6",
     "toastr": "github:CodeSeven/toastr@2.1.2",
     "ts": "github:frankwallis/plugin-typescript@3.0.3",
     "zone.js": "npm:zone.js@0.6.12",
