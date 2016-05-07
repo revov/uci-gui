@@ -4,11 +4,12 @@ module.exports = function(passport, socketioService) {
     var router = express.Router();
 
     router.post('/', function(req, res) {
-        // FIXME: clean all namespaces
         req.session.socketIds.forEach(function(socketId) {
-            if(socketioService.socketIO.sockets.sockets[socketId]) {
+            var socketNamespace = socketId.split('#')[0];
+
+            if(socketioService.socketIO.nsps[socketNamespace].sockets[socketId]) {
                 console.log('disconnecting socket ' + socketId);
-                socketioService.socketIO.sockets.sockets[socketId].disconnect(true);
+                socketioService.socketIO.nsps[socketNamespace].sockets[socketId].disconnect(true);
             }
         });
         
