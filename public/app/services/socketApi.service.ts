@@ -23,6 +23,7 @@ export class SocketApiService {
         let socket = this._sockets[namespace];
 
         return new Observable<T>((streamObserver: Observer<T>) => {
+            this._logger.debug(`Subscribing for ${namespace}/${room}`);
             socket.emit('subscribe', room);
 
             let onProgressHandler = (payload: T) => {
@@ -38,7 +39,7 @@ export class SocketApiService {
             
             // Return unsubscribe function
             return () => {
-                this._logger.debug(`unsubscribing from ${namespace}/${room}`);
+                this._logger.debug(`Unsubscribing from ${namespace}/${room}`);
 
                 socket.emit('unsubscribe', room);
                 socket.off('progress', onProgressHandler);

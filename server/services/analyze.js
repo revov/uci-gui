@@ -1,4 +1,5 @@
 'use strict';
+var Game = require('../models/game');
 
 var Engine = require('uci'),
     engineConfig = require('../config/engine'),
@@ -25,6 +26,16 @@ function convertPGNToLAN(movesArray) {
     return movesToReturn;
 };
 
+function emitGameProgress(socketioGameNamespace, gameId) {
+    Game.findById(gameId, function(err, game) {
+        if( !err ) {
+            // TODO: Sending the whole game on each move is not very performant but we don't have to bother
+            // with it at the moment since the game analysis is a million times more expensive
+            socketioGameNamespace.to(gameId).emit('progress', game);
+        }
+    });
+}
+
 function startAnalizing(game, gameModel, chess, socketioGameNamespace, engine) {
     // convert the pgn notation to long algebraic notation
     var moves = convertPGNToLAN(chess.history({verbose: true}));
@@ -50,7 +61,7 @@ function startAnalizing(game, gameModel, chess, socketioGameNamespace, engine) {
                                             socketioGameNamespace.to(game._id).emit('error', { message: 'Error setting status' });
                                             socketioGameNamespace.leave(game._id);
                                         } else {
-                                            socketioGameNamespace.to(game._id).emit('progress', { status: constants.StatusTypes.Analyzing, progress: 0 });
+                                            emitGameProgress(socketioGameNamespace, game._id);
                                         }
                                     });
                         }).then(function () {
@@ -122,7 +133,7 @@ function startAnalizing(game, gameModel, chess, socketioGameNamespace, engine) {
                                             socketioGameNamespace.to(game._id).emit('error', { message: 'Error analyzing game' });
                                             socketioGameNamespace.leave(game._id);
                                         } else {
-                                            socketioGameNamespace.to(game._id).emit('progress', { status: constants.StatusTypes.Analyzing, progress: currentProgress });
+                                            emitGameProgress(socketioGameNamespace, game._id);
                                         }
                                     });
                     });
@@ -139,7 +150,7 @@ function startAnalizing(game, gameModel, chess, socketioGameNamespace, engine) {
                                 if(err) {
                                     socketioGameNamespace.to(game._id).emit('error', { message: 'Error setting status' });
                                 } else {
-                                    socketioGameNamespace.to(game._id).emit('progress', { status: constants.StatusTypes.Complete, progress: 100 });
+                                    emitGameProgress(socketioGameNamespace, game._id);
                                 }
                             });
             }).fail(function (error) {

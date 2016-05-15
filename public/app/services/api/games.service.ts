@@ -8,11 +8,6 @@ import 'rxjs/add/operator/takeWhile';
 import {Game} from '../../models/game';
 import {SocketApiService} from '../socketApi.service';
 
-interface IGameProgressNotification {
-    status: string,
-    progress: number
-}
-
 @Injectable()
 export class GamesService {
     private _gamesUrl = 'api/games';
@@ -60,14 +55,7 @@ export class GamesService {
     }
     
     gameProgress(game: Game): Observable<Game> {
-        return this._socketApiService.subscribe<IGameProgressNotification>('/game', game._id)
-            .takeWhile(gameProgressNotification => gameProgressNotification.status !== 'Complete')
-            .map(gameProgressNotification => {
-                // FIXME: should clone this instead of mutating it:
-                game.analysis.status = gameProgressNotification.status;
-                game.analysis.progress = gameProgressNotification.progress;
-
-                return game;
-            });
+        return this._socketApiService.subscribe<Game>('/game', game._id)
+            .takeWhile(currentGame => currentGame.analysis.status !== 'Complete');
     }
 }
