@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {CanActivate, RouteParams} from '@angular/router-deprecated';
 import {Chess} from 'chess.js/chess';
 
@@ -8,6 +8,7 @@ import {GamesService} from '../../services/api/games.service';
 import {Game} from '../../models/game';
 import {MovesBrowser} from './movesBrowser.component';
 import {BarChartAnalysis} from '../../integration/chartjs/barChartAnalysis.component';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     template: `
@@ -28,12 +29,13 @@ import {BarChartAnalysis} from '../../integration/chartjs/barChartAnalysis.compo
     // and the back end won't serve any content anyway
     return true;
 })
-export class GameDetail {
+export class GameDetail implements OnDestroy {
     private _game: Game;
     private _chessJsInstance: Chess = new Chess();
     private _shortHistoryCache: any[] = [];
     private _fenCache: string[] = [];
     private _currentPositionIndex: number = -1;
+    private _subscriptions: Subscription[] = [];
 
     constructor (
         private _logger: LoggerService,
@@ -42,10 +44,19 @@ export class GameDetail {
     ) {
         let gameId = this._routeParams.get('id');
 
-        this._gamesService.get(gameId)
-            .subscribe(
-                (game) => this.onGameChanged(game)
-            );
+        this._subscriptions.push(
+            this._gamesService.get(gameId).subscribe(
+                (game) => {
+                    this.onGameChanged(game);
+                    // If game is not completed subscribe for changes
+                    if(game.analysis.status !== 'Completed') {
+                        this._subscriptions.push(
+                            this._gamesService.gameProgress(game).subscribe(currentGame => this._game = currentGame)
+                        );
+                    }
+                }
+            )
+        );
     }
 
     /**
@@ -74,5 +85,9 @@ export class GameDetail {
             gameReplay.move(this._shortHistoryCache[i]);
             this._fenCache.push(gameReplay.fen());
         }
+    }
+    
+    ngOnDestroy() {
+        this._subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 }
