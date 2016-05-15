@@ -12,7 +12,7 @@ import {Game} from '../../models/game';
             <div class="header">
                 {{_gameResolved?.result}}
             </div>
-            <div class="meta" *ngIf="_gameResolved?.analysis?.status!=='Complete'">
+            <div class="meta" *ngIf="!_analysisCompleted">
                 {{_gameResolved?.analysis?.progress}}% {{_gameResolved?.analysis?.status}}
             </div>
             <div class="description">
@@ -42,18 +42,28 @@ export class GamesCardItem implements OnDestroy {
     
     private _gameSubscription: Subscription;
     private _gameResolved : Game;
+    private _analysisCompleted: boolean = false;
 
     constructor(private _changeDetectorRef: ChangeDetectorRef) {}
     
     ngOnChanges() {
+        this._analysisCompleted = false;
+
         if(this._gameSubscription) {
             this._gameSubscription.unsubscribe();
         }
         
-        this._gameSubscription = this.game.subscribe(game => {
-            this._gameResolved = game;
-            this._changeDetectorRef.markForCheck();
-        });
+        this._gameSubscription = this.game.subscribe(
+            game => {
+                this._gameResolved = game;
+                this._changeDetectorRef.markForCheck();
+            },
+            err => {},
+            () => {
+                this._analysisCompleted = true;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
     
     ngOnDestroy() {
