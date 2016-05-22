@@ -2,7 +2,8 @@ var express = require('express'),
     ensureLoggedIn = require('../passport/ensureLoggedIn'),
     Game = require('../models/game'),
     analyzer = require('../services/analyze'),
-    Chess = require('chess.js').Chess;
+    Chess = require('chess.js').Chess,
+    responseObjectHelper = require( '../helpers/responseObjectHelper' );
 
 module.exports = function(passport, socketioService) {
     var router = express.Router();
@@ -32,17 +33,17 @@ module.exports = function(passport, socketioService) {
                                   });
                     newGame.save(function (err) {
                                 if (err) {
-                                    res.status(400).json(err);
+                                    res.status(400).json(responseObjectHelper.getNotFoundResponseObject( err.message, err ));
                                 } else {
-                                    res.status(201).json(newGame);
+                                    res.status(201).json(responseObjectHelper.getCreatedResponseObject( 'Game saved', newGame ));
                                     analyzer.analyze(newGame, Game, chess, socketioService.socketIO.of('game'));
                                 }
                             });
                 } else {
-                    res.status(400).json({message: 'Could not parse provided pgn' });
+                    res.status(400).json(responseObjectHelper.getNotFoundResponseObject( 'Could not parse provided pgn', {} ));
                 }
             } else {
-                res.status(400).json({message: 'Empty PGN' });
+                res.status(400).json(responseObjectHelper.getNotFoundResponseObject( 'Empty PGN', {} ));
             }
         }
     );

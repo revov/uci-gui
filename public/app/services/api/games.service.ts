@@ -11,7 +11,7 @@ import {SocketApiService} from '../socketApi.service';
 @Injectable()
 export class GamesService {
     private _gamesUrl = 'api/games';
-    
+
     private _requestOptions: RequestOptions;
 
     constructor (
@@ -25,18 +25,18 @@ export class GamesService {
 
     get(gameId: string): Observable<Game> {
         return this._http.get(this._gamesUrl + '/' + gameId, this._requestOptions)
-                        .map(res => <Game>res.json());
+                        .map(res => <Game>res.json().data);
     }
 
     /**
-     * Gets all the games as Observables, because each game will report its analysis progres through websockets
+     * Gets all the games as Observables, because each game will report its analysis progress through websockets
      */
     getAll() : Observable<Observable<Game>[]> {
         return this._http.get(this._gamesUrl, this._requestOptions)
                         .map(res => {
-                            let games = <Game[]>res.json();
+                            let games = <Game[]>res.json().data;
                             let gamesObservables: Observable<Game>[] = [];
-                            
+
                             for(let i = 0; i<games.length; i++) {
                                 if(games[i].analysis.status === 'Complete') {
                                     gamesObservables.push(Observable.from([games[i]]));
@@ -44,16 +44,16 @@ export class GamesService {
                                     gamesObservables.push(this.gameProgress(games[i]));
                                 }
                             }
-                            
+
                             return gamesObservables;
                         });
     }
-    
+
     delete(gameId: string) : Observable<boolean> {
         return this._http.delete(this._gamesUrl + '/' + gameId, this._requestOptions)
                         .map(res => true);
     }
-    
+
     gameProgress(game: Game): Observable<Game> {
         return this._socketApiService.subscribe<Game>('/game', game._id)
             .takeWhile(currentGame => currentGame.analysis.status !== 'Complete');

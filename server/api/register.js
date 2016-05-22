@@ -1,4 +1,5 @@
-var express = require('express');
+var express = require('express'),
+    responseObjectHelper = require( '../helpers/responseObjectHelper' );
 
 module.exports = function(passport) {
     var router = express.Router();
@@ -7,7 +8,7 @@ module.exports = function(passport) {
         var user = req.user.toObject();
         delete user.password;
 
-        res.json(user);
+        res.status(200).json(responseObjectHelper.getSuccessResponseObject( 'Success', user ));
     });
 
     return router;

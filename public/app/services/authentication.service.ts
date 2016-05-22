@@ -12,9 +12,9 @@ export class AuthenticationService {
     private _logoutUrl = 'api/logout';
     private _registerUrl = 'api/register';
     private _userUrl = 'api/user';
-    
+
     private _requestOptions: RequestOptions;
-    
+
     public currentUser: Subject<User> = new Subject<User>();
 
     constructor (
@@ -25,7 +25,7 @@ export class AuthenticationService {
         this._requestOptions = new RequestOptions({ headers: headers });
 
         this._http.get(this._userUrl, this._requestOptions)
-                        .map(res => <User> res.json())
+                        .map(res => <User> res.json().data)
                         .subscribe(
                             user => this.currentUser.next(user),
                             err => _logger.info('No user logged in.')
@@ -46,7 +46,7 @@ export class AuthenticationService {
 
         return this._http.post(this._loginUrl, body, this._requestOptions)
                         .map(res => {
-                            let user : User = res.json();
+                            let user : User = res.json().data;
                             this.currentUser.next(user);
 
                             return user;
@@ -67,7 +67,7 @@ export class AuthenticationService {
 
         return this._http.post(this._registerUrl, body, this._requestOptions)
                         .map(res => {
-                            let user : User = res.json();
+                            let user : User = res.json().data;
                             this.currentUser.next(user);
 
                             return user;
