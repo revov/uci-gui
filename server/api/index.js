@@ -9,6 +9,7 @@ module.exports = function(passport, socketioService) {
     router.use('/user', require('./user')(passport));
     router.use('/games', require('./games')(passport, socketioService));
     router.use('/import', require('./import')(passport, socketioService));
+    router.use('/preferences', require('./preferences')(passport));
 
     return router;
 };

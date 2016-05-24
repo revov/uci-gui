@@ -7,6 +7,7 @@ import {Home} from './home.component';
 import {Login} from './login.component';
 import {Register} from './register.component';
 import {Games} from './games/games.component';
+import {Preferences} from './preferences.component';
 
 import {User} from '../models/user';
 
@@ -26,6 +27,10 @@ import {LoggerService, LogLevel} from '../services/logger.service';
                 <a [routerLink]="['Games']" *ngIf="_currentUser" class="item" [class.active]="_router.isRouteActive(_router.generate(['Games']))">
                     <i class="bar chart icon"></i>
                     Games
+                </a>
+                <a [routerLink]="['Preferences']" *ngIf="_currentUser" class="item" [class.active]="_router.isRouteActive(_router.generate(['Preferences']))">
+                    <i class="settings icon"></i>
+                    Preferences
                 </a>
                 <div class="right menu">
                     <a [routerLink]="['Login']" class="item" *ngIf="!_currentUser" [class.active]="_router.isRouteActive(_router.generate(['Login']))">
@@ -61,7 +66,8 @@ import {LoggerService, LogLevel} from '../services/logger.service';
     { path: '/', name: 'Home', component: Home, useAsDefault: true },
     { path: '/login', name: 'Login', component: Login },
     { path: '/register', name: 'Register', component: Register },
-    { path: '/games/...', name: 'Games', component: Games }
+    { path: '/games/...', name: 'Games', component: Games },
+    { path: '/preferences', name: 'Preferences', component: Preferences }
 ])
 export class App implements OnDestroy {
     private _currentUser: User = null;

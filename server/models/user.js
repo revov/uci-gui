@@ -7,7 +7,12 @@ var UserSchema = new Schema({
     email: String,
     password: String,
     firstName: String,
-    lastName: String
+    lastName: String,
+    preferences: {
+        uci: {
+            msPerMove: { type: Number, default: 500 }
+        }
+    }
 });
 
 UserSchema.methods.isValidPassword = function(password){

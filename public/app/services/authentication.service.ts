@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
-import {User} from '../models/user';
+import {User, IPreferences} from '../models/user';
 import {LoggerService} from './logger.service';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -11,11 +11,12 @@ export class AuthenticationService {
     private _loginUrl = 'api/login';
     private _logoutUrl = 'api/logout';
     private _registerUrl = 'api/register';
+    private _preferencesUrl = 'api/preferences';
     private _userUrl = 'api/user';
 
     private _requestOptions: RequestOptions;
-
-    public currentUser: Subject<User> = new Subject<User>();
+    
+    public currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
     constructor (
         private _http: Http,
@@ -27,13 +28,13 @@ export class AuthenticationService {
         this._http.get(this._userUrl, this._requestOptions)
                         .map(res => <User> res.json().data)
                         .subscribe(
-                            user => this.currentUser.next(user),
-                            err => _logger.info('No user logged in.')
-                        );
+            user => this.currentUser.next(user),
+            err => _logger.info('No user logged in.')
+        );
 
         this.currentUser.subscribe(user => {
             if(user) {
-                _logger.info('User logged in.');
+                _logger.info('Current user:');
                 _logger.debug(user);
             } else {
                 _logger.info('User logged out.');
@@ -68,6 +69,18 @@ export class AuthenticationService {
         return this._http.post(this._registerUrl, body, this._requestOptions)
                         .map(res => {
                             let user : User = res.json().data;
+                            this.currentUser.next(user);
+
+                            return user;
+                        });
+    }
+    
+    savePreferences ( preferences: IPreferences ) {
+        let body = JSON.stringify(preferences);
+        
+         return this._http.post(this._preferencesUrl, body, this._requestOptions)
+                        .map(res => {
+                            let user : User = res.json();
                             this.currentUser.next(user);
 
                             return user;
