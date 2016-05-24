@@ -1,5 +1,6 @@
 var express = require('express'),
-    ensureLoggedIn = require('../passport/ensureLoggedIn');
+    ensureLoggedIn = require('../passport/ensureLoggedIn'),
+    responseObjectHelper = require( '../helpers/responseObjectHelper' );
 
 module.exports = function(passport) {
     var router = express.Router();
@@ -13,12 +14,12 @@ module.exports = function(passport) {
 
             user.save(function(err) {
                 if(err) {
-                    res.status(400).json({message: String(err)});
+                    res.status(400).json(responseObjectHelper.getNotFoundResponseObject( err.message, err ))
                 } else {
                     var userObj = user.toObject();
                     delete userObj.password;
 
-                    res.status(200).json(userObj);
+                    res.status(200).json(responseObjectHelper.getSuccessResponseObject( 'Success', userObj ));
                 }
             });
         }

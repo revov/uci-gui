@@ -80,7 +80,7 @@ export class AuthenticationService {
         
          return this._http.post(this._preferencesUrl, body, this._requestOptions)
                         .map(res => {
-                            let user : User = res.json();
+                            let user : User = res.json().data;
                             this.currentUser.next(user);
 
                             return user;
