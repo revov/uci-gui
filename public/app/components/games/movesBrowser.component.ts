@@ -4,7 +4,7 @@ import {FocusableSegmentDirective} from '../../integration/semantic/focusableSeg
 @Component({
     selector: 'moves-browser',
     template: `
-        <div focusableSegment class="ui segment" (keydown)="onKeyPressed($event.keyCode)">
+        <div focusableSegment class="ui segment" [class.disabled]="disabled" (keydown)="onKeyPressed($event.keyCode)">
             <div class="ui horizontal list">
                 <div *ngFor="let move of _moves; let i=index" class="item">
                     <span class="move-number">{{i+1}}.</span>
@@ -25,14 +25,14 @@ import {FocusableSegmentDirective} from '../../integration/semantic/focusableSeg
         }
 
         .move {
-            cursor: pointer;
             background: transparent;
             padding: 0.5em 0.5em;
             margin: 0em;
             border-radius: 0.5em;
         }
 
-        .move:hover {
+        .ui.segment:not(.disabled) .move:hover {
+            cursor: pointer;
             background: rgba(0, 0, 0, 0.03);
             color: rgba(0, 0, 0, 0.8);\n\
             font-weight: bold;
@@ -88,9 +88,16 @@ export class MovesBrowser {
     }
     get halfMoves() { return this._halfMoves }
 
+    @Input()
+    disabled: boolean = false;
+
     @Output() moveSelected = new EventEmitter<number>();
     
     makeMove(index: number) {
+        if(this.disabled) {
+            return;
+        }
+        
         if (index >= this.halfMoves.length || index < -1) {
             return;
         }

@@ -15,7 +15,14 @@ import {Subscription} from 'rxjs/Subscription';
         <div>
             <div class="ui two column grid">
                 <chessboard [fen]="_currentPositionIndex < 0 ? 'start' : _fenCache[_currentPositionIndex]" class="column"></chessboard>
-                <moves-browser [halfMoves]="_shortHistoryCache" (moveSelected)="_currentPositionIndex = $event" class="column" style="height=500px"></moves-browser>
+                <moves-browser
+                    [halfMoves]="_shortHistoryCache"
+                    (moveSelected)="_currentPositionIndex = $event"
+                    [disabled]="!_analysisCompleted"
+                    class="column"
+                    style="height=500px"
+                >
+                </moves-browser>
             </div>
             <barchartAnalysis [moves]="_game?.analysis?.moves" [white]="_game?.white" [black]="_game?.black" [result]="_game?.result"></barchartAnalysis>
         </div>
@@ -31,6 +38,7 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class GameDetail implements OnDestroy {
     private _game: Game;
+    private _analysisCompleted: boolean = false;
     private _chessJsInstance: Chess = new Chess();
     private _shortHistoryCache: any[] = [];
     private _fenCache: string[] = [];
@@ -48,12 +56,26 @@ export class GameDetail implements OnDestroy {
             this._gamesService.get(gameId).subscribe(
                 (game) => {
                     this.onGameChanged(game);
+                    
                     // If game is not completed subscribe for changes
-                    if(game.analysis.status !== 'Completed') {
+                    if(game.analysis.status !== 'Complete') {
                         this._subscriptions.push(
-                            this._gamesService.gameProgress(game).subscribe(currentGame => this._game = currentGame)
+                            this._gamesService.gameProgress(game).subscribe(
+                                currentGame => {
+                                    this._game = currentGame;
+                                    this._currentPositionIndex = currentGame.analysis.moves.length -1;
+                                },
+                                err => {},
+                                () => {
+                                    this._analysisCompleted = true;
+                                    this._currentPositionIndex = -1;
+                                }
+                            )
                         );
+                    } else {
+                        this._analysisCompleted = true;
                     }
+                    
                 }
             )
         );
@@ -76,6 +98,7 @@ export class GameDetail implements OnDestroy {
         this._fenCache = [];
         this._currentPositionIndex = -1;
         this._game = game;
+        this._analysisCompleted = false;
 
         this._chessJsInstance.load_pgn(game.pgn);
         this._shortHistoryCache = this._chessJsInstance.history();
