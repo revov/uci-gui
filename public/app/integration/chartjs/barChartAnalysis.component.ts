@@ -42,7 +42,7 @@ export class BarChartAnalysis implements AfterViewInit, OnDestroy {
                                 data: []
                             },
                             {
-                                label: this.black,
+                                label: 'black',
                                 backgroundColor: "#b58863",
                                 data: []
                             }
